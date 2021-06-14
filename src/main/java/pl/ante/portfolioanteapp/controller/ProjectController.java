@@ -1,16 +1,17 @@
 package pl.ante.portfolioanteapp.controller;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.ante.portfolioanteapp.model.Project;
 import pl.ante.portfolioanteapp.model.ProjectRepository;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
-@RepositoryRestController
+@RestController
 //@RequestMapping("/projects")
 class ProjectController {
 
@@ -36,6 +37,35 @@ class ProjectController {
         return ResponseEntity.ok(repository.findAll(page).getContent());  //Without .getContent returns Page<T> with a lot more info for page (Spring - przeglad / Pageable and Page)
     }
 
+    @GetMapping("/projects/{id}")
+    ResponseEntity<Project> readById(@PathVariable int id) {
+        return repository.findById(id)
+                .map(project -> ResponseEntity.ok(project))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+
+    //---POST
+    @PostMapping("/projects")
+    ResponseEntity<Project> createProject(@RequestBody @Valid Project toCreate) {
+        Project result = repository.save(toCreate);
+        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
+    }
+
+
+    //PUTs
+    @PutMapping("/projects/{id}")
+    ResponseEntity<?> updateProject(@PathVariable int id, @RequestBody @Valid Project toUpdate) {
+        if (!repository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        repository.findById(id)
+                .ifPresent(project -> {
+                    project.updateFrom(toUpdate);
+                    repository.save(project);
+                });
+        return ResponseEntity.noContent().build();
+    }
 
 
 
@@ -44,7 +74,9 @@ class ProjectController {
 
 
 
-    //HATEOAS
+
+
+//    //---HATEOAS
 //    @GetMapping
 //    ResponseEntity<CollectionModel<Project>> readAllProjects() {
 //        List<Project> allProjects = repository.findAll();

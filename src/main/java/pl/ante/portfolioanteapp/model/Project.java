@@ -1,11 +1,9 @@
 package pl.ante.portfolioanteapp.model;
 
-import org.springframework.hateoas.RepresentationModel;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.Month;
-import java.time.Year;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "projects")
@@ -22,11 +20,9 @@ public class Project{
     @NotBlank(message = "Project name cannot be empty")
     private String nameEn;
 
-    @NotBlank(message = "Opis projektu nie może być pusty")
-    private String descriptionPl;
-
-    @NotBlank(message = "Project description cannot be empty")
-    private String descriptionEn;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "type_id")
+    private Set<Type> types;
 
 //    @NotBlank(message = "Year field cannot be empty")
 //    private Year year;
@@ -34,17 +30,19 @@ public class Project{
 //    @NotBlank(message = "Month field cannot be empty")
 //    private Month month;
 
-    private boolean done;
 
+    private LocalDateTime createdOn;
+    private LocalDateTime updatedOn;
 
-    //TODO: walidacja jak juz sie naucze jak dodawac grafike, musi byc dobra sciezka do pliku
-    private String pathImg;
+//    //TODO: walidacja jak juz sie naucze jak dodawac grafike, musi byc dobra sciezka do pliku
+//    private String pathImg;
 
 
 
     //---
     public Project() {
     }
+
 
 
 
@@ -67,42 +65,27 @@ public class Project{
     void setNameEn(final String nameEn) {
         this.nameEn = nameEn;
     }
-    public String getDescriptionPl() {
-        return descriptionPl;
+    public Set<Type> getTypes() {
+        return types;
     }
-    void setDescriptionPl(final String description_pl) {
-        this.descriptionPl = description_pl;
-    }
-    public String getDescriptionEn() {
-        return descriptionEn;
-    }
-    void setDescriptionEn(final String description_en) {
-        this.descriptionEn = description_en;
-    }
-    public String getPathImg() {
-        return pathImg;
-    }
-    void setPathImg(final String path_img) {
-        this.pathImg = path_img;
+    void setTypes(final Set<Type> types) {
+        this.types = types;
     }
 
-    public boolean isDone() {
-        return done;
-    }
-    void setDone(final boolean done) {
-        this.done = done;
+    @PrePersist
+    void prePersist() {
+        createdOn = LocalDateTime.now();
     }
 
-    //    public Year getYear() {
-//        return year;
-//    }
-//    void setYear(final Year year) {
-//        this.year = year;
-//    }
-//    public Month getMonth() {
-//        return month;
-//    }
-//    void setMonth(final Month month) {
-//        this.month = month;
-//    }
+    @PreUpdate
+    void preUpdate() {
+        updatedOn = LocalDateTime.now();
+    }
+
+    //TODO: always update this method when databases changes
+    public void updateFrom(Project source) {
+        namePl = source.getNamePl();
+        nameEn = source.getNameEn();
+    }
+
 }

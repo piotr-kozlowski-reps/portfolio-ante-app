@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS projects;
+
+CREATE TABLE projects(
+     id INT PRIMARY KEY AUTO_INCREMENT,
+     name_pl VARCHAR(150) NOT NULL,
+     name_en VARCHAR(150) NOT NULL
+);
