@@ -15,7 +15,7 @@ class Type {
 
 
     //---
-    Type() {
+    public Type() {
     }
 
 

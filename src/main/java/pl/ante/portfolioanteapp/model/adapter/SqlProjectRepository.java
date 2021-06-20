@@ -1,9 +1,9 @@
-package pl.ante.portfolioanteapp.model;
+package pl.ante.portfolioanteapp.model.adapter;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import pl.ante.portfolioanteapp.model.Project;
+import pl.ante.portfolioanteapp.model.ProjectRepository;
 
 @Repository
 interface SqlProjectRepository extends ProjectRepository, JpaRepository<Project, Integer> {
