@@ -30,7 +30,7 @@ public class Project {
     private Year year;
     private Month month;
 
-    @NotBlank(message = "Pole miejscowosci nie może być puste")  //TODO: polskie znaki
+    @NotBlank(message = "Pole miejscowości nie może być puste")
     private String cityPl;
 
     @NotBlank(message = "Month field cannot be empty")
@@ -55,6 +55,9 @@ public class Project {
             joinColumns = @JoinColumn(name = "id_project"),
             inverseJoinColumns = @JoinColumn(name = "id_type"))
     private List<Type> types = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+    private Set<ProjectImage> images;
 
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
@@ -138,6 +141,12 @@ public class Project {
     }
     public void setTypes(List<Type> types) {
         this.types = types;
+    }
+    public Set<ProjectImage> getImages() {
+        return images;
+    }
+    public void setImages(final Set<ProjectImage> images) {
+        this.images = images;
     }
 
     @PrePersist

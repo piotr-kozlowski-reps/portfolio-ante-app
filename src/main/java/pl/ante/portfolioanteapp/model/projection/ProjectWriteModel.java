@@ -1,5 +1,7 @@
 package pl.ante.portfolioanteapp.model.projection;
 
+import pl.ante.portfolioanteapp.model.ProjectImage;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -30,7 +32,7 @@ public class ProjectWriteModel {
     @NotBlank(message = "City name cannot be empty")
     private String cityEn;
 
-    @NotBlank(message = "Nazwa panstwa nie może być pusta") //TODO: polskie znaki
+    @NotBlank(message = "Nazwa państwa nie może być pusta")
     private String countryPl;
 
     @NotBlank(message = "Country name cannot be empty")
@@ -42,6 +44,8 @@ public class ProjectWriteModel {
     private String icoPath;
 
     private Set<Integer> types;
+
+    private Set<ProjectImage> images;
 
 
 
@@ -113,6 +117,10 @@ public class ProjectWriteModel {
     public void setTypes(final Set<Integer> types) {
         this.types = types;
     }
-
-
+    public Set<ProjectImage> getImages() {
+        return images;
+    }
+    public void setImages(final Set<ProjectImage> images) {
+        this.images = images;
+    }
 }

@@ -1,5 +1,7 @@
 package pl.ante.portfolioanteapp.logic;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pl.ante.portfolioanteapp.exceptions.NoSuchTypeException;
 import pl.ante.portfolioanteapp.model.Project;
@@ -17,6 +19,7 @@ import java.util.List;
 public class ProjectService {
 
     //---fields
+    Logger logger = LoggerFactory.getLogger(ProjectService.class);
     private ProjectRepository projectRepository;
     private TypeRepository typeRepository;
 
@@ -43,6 +46,7 @@ public class ProjectService {
         result.setClient(projectWriteModel.getClient());
         result.setIcoPath(projectWriteModel.getIcoPath());
         result.setTypes(applyTypes(projectWriteModel));
+        result.setImages(projectWriteModel.getImages());
 
         return result;
     }
@@ -51,18 +55,15 @@ public class ProjectService {
 
         List<Type> types = new ArrayList<>();
 
+
         try {
-
             for (Integer typeId : projectWriteModel.getTypes()) {
-
                 Type type = typeRepository.findById(typeId)
                         .orElseThrow(() -> new NoSuchTypeException("There's no such Type"));
-
                 types.add(type);
-
             }
         } catch (NoSuchTypeException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
 
 
@@ -70,19 +71,3 @@ public class ProjectService {
 
     }
 }
-
-
-//
-////        Set<Type> resultTypes = new HashSet<>();
-////        for (String type : types) {
-////            int typeId = Integer.parseInt(type);
-////            Type resultType = new Type();
-////
-////            resultTypes.add(Type);
-////        }
-////        result.setTypes(this.getTypes());
-//
-//
-//
-//        return result;
-//    }
