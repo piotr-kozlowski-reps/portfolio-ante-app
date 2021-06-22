@@ -1,33 +1,46 @@
 package pl.ante.portfolioanteapp.controller;
 
-import org.hibernate.criterion.ProjectionList;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.ante.portfolioanteapp.logic.ProjectService;
 import pl.ante.portfolioanteapp.model.Project;
 import pl.ante.portfolioanteapp.model.ProjectRepository;
-import pl.ante.portfolioanteapp.model.projection.ProjectSimpleInfoFactory;
-import pl.ante.portfolioanteapp.model.projection.ProjectSimpleInfoReadModel;
 import pl.ante.portfolioanteapp.model.projection.ProjectWriteModel;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/projects")
 class ProjectController {
 
+
     private final ProjectRepository repository;
+    private final ProjectService projectService;
 
 
     //---
-    ProjectController(final ProjectRepository repository) {
+    ProjectController(final ProjectRepository repository, final ProjectService projectService) {
         this.repository = repository;
+        this.projectService = projectService;
     }
 
+
+
+    //---POST
+    @PostMapping("/projects")
+    ResponseEntity<Project> createProject(@RequestBody @Valid ProjectWriteModel projectWriteModel) {
+        Project result = repository.save(projectService.createProjectFromWriteModel(projectWriteModel));
+        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
+    }
+
+
+//    @PostMapping("/projects")
+//    ResponseEntity<Project> createProject(@RequestBody @Valid Project toCreate) {
+//        Project result = repository.save(toCreate);
+//        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
+//    }
 
 
 
@@ -50,34 +63,29 @@ class ProjectController {
     }
 
 
-    //---POST
-//    @PostMapping("/projects")
-//    ResponseEntity<Project> createProject(@RequestBody @Valid Project toCreate) {
-//        Project result = repository.save(toCreate);
-//        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
+
+
+//        @PostMapping("/projects")
+//        ResponseEntity<ProjectSimpleInfoReadModel> createProject(@Param("lang") String lang, @RequestBody @Valid ProjectWriteModel projectWriteModel) {
+//            Project project = repository.save(projectWriteModel.toProject());
+//            ProjectSimpleInfoReadModel result = ProjectSimpleInfoFactory.getInstance().getProjectSimpleInfoReadModel(lang, project);
+//        return ResponseEntity.created(URI.create("/" + project.getId())).body(result);
 //    }
 
-        @PostMapping("/projects")
-        ResponseEntity<ProjectSimpleInfoReadModel> createProject(@Param("lang") String lang, @RequestBody @Valid ProjectWriteModel projectWriteModel) {
-            Project project = repository.save(projectWriteModel.toProject());
-            ProjectSimpleInfoReadModel result = ProjectSimpleInfoFactory.getInstance().getProjectSimpleInfoReadModel(lang, project);
-        return ResponseEntity.created(URI.create("/" + project.getId())).body(result);
-    }
 
-
-    //PUTs
-    @PutMapping("/projects/{id}")
-    ResponseEntity<?> updateProject(@PathVariable int id, @RequestBody @Valid Project toUpdate) {
-        if (!repository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        repository.findById(id)
-                .ifPresent(project -> {
-                    project.updateFrom(toUpdate);
-                    repository.save(project);
-                });
-        return ResponseEntity.noContent().build();
-    }
+//    //PUTs
+//    @PutMapping("/projects/{id}")
+//    ResponseEntity<?> updateProject(@PathVariable int id, @RequestBody @Valid Project toUpdate) {
+//        if (!repository.existsById(id)) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        repository.findById(id)
+//                .ifPresent(project -> {
+//                    project.updateFrom(toUpdate);
+//                    repository.save(project);
+//                });
+//        return ResponseEntity.noContent().build();
+//    }
 
 
 

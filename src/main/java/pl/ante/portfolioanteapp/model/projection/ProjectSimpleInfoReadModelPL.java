@@ -4,12 +4,12 @@ import pl.ante.portfolioanteapp.model.Project;
 
 public class ProjectSimpleInfoReadModelPL extends ProjectSimpleInfoReadModel{
 
-    ProjectSimpleInfoReadModelPL(Project project) {
-        this.setId(project.getId());
-        this.setName(project.getNamePl());
-        this.setYear(project.getYear().toString());
-
-
+    ProjectSimpleInfoReadModelPL(Project source) {
+        this.setId(source.getId());
+        this.setName(source.getNamePl());
+        this.setYear(source.getYear().toString());
+        this.setCity(source.getCityPl());
+        this.setCountry(source.getCountryPl());
     }
 
 }

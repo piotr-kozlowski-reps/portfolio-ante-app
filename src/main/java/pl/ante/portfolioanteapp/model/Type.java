@@ -1,30 +1,41 @@
 package pl.ante.portfolioanteapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "types")
-class Type {
+public class Type {
 
+    //---fields
     @Id
-    private short id;
+    private Integer id;
     private String type;
 
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "types")
+    private List<Project> projects = new ArrayList<>();
 
 
-    //---
+
+
+    //---constr
     public Type() {
     }
+    Type(final Integer id, final String type) {
+        this.id = id;
+        this.type = type;
+    }
 
-
-
-    //---
-    public short getId() {
+    //---get/set
+    public Integer getId() {
         return id;
     }
-    void setId(final short id) {
+    void setId(final Integer id) {
         this.id = id;
     }
     public String getType() {
@@ -33,4 +44,19 @@ class Type {
     void setType(final String type) {
         this.type = type;
     }
+    public List<Project> getProjects() {
+        return projects;
+    }
+    void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+
+
+    //---methods
+    public void addProject(Project project) {
+        projects.add(project);
+    }
+
+
 }

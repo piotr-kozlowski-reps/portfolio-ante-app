@@ -1,31 +1,47 @@
 package pl.ante.portfolioanteapp.model.projection;
 
-import pl.ante.portfolioanteapp.model.Project;
-
-import javax.validation.constraints.Pattern;
-import java.time.Month;
-import java.time.Year;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 public class ProjectWriteModel {
 
     //---
+    @NotBlank(message = "Nazwa projektu nie może być pusta")
     private String namePl;
+
+    @NotBlank(message = "Project name cannot be empty")
     private String nameEn;
 
-    @Pattern(regexp = "^\\d{4}$")
-    private String year;
+//    @Pattern(regexp = "^\\d{4}$", message = "Enter correct year, please")
+    @Min(value = 1990, message = "Enter correct year (greater than 1990), please")
+    @Max(value = 2050, message = "Enter correct year (lower than 2050), please")
+    private Integer year;
 
-    private String month;
+//    @Pattern(regexp = "^(1|01|1|02|2|3|03|4|04|5|05|6|06|7|07|8|08|9|09|10|11|12)$", message = "Enter correct month number (from 1 to 12)")
+    @Min(value = 1, message = "Enter correct month number (1-12), please")
+    @Max(value = 12, message = "Enter correct month number (1-12), please")
+    private Integer month;
+
+    @NotBlank(message = "Nazwa miasta nie może być pusta")
     private String cityPl;
+
+    @NotBlank(message = "City name cannot be empty")
     private String cityEn;
+
+    @NotBlank(message = "Nazwa panstwa nie może być pusta") //TODO: polskie znaki
     private String countryPl;
+
+    @NotBlank(message = "Country name cannot be empty")
     private String countryEn;
+
+    @NotBlank(message = "Client field cannot be empty")
     private String client;
 
     private String icoPath;
 
-    private Set<String> types;
+    private Set<Integer> types;
 
 
 
@@ -43,16 +59,16 @@ public class ProjectWriteModel {
     public void setNameEn(final String nameEn) {
         this.nameEn = nameEn;
     }
-    public String getYear() {
+    public Integer getYear() {
         return year;
     }
-    public void setYear(final String year) {
+    public void setYear(final Integer year) {
         this.year = year;
     }
-    public String getMonth() {
+    public Integer getMonth() {
         return month;
     }
-    public void setMonth(final String month) {
+    public void setMonth(final Integer month) {
         this.month = month;
     }
     public String getCityPl() {
@@ -91,31 +107,12 @@ public class ProjectWriteModel {
     public void setIcoPath(final String icoPath) {
         this.icoPath = icoPath;
     }
-    public Set<String> getTypes() {
+    public Set<Integer> getTypes() {
         return types;
     }
-    public void setTypes(final Set<String> types) {
+    public void setTypes(final Set<Integer> types) {
         this.types = types;
     }
 
-
-    //---
-    public Project toProject() {
-
-        var result = new Project();
-        result.setNamePl(this.getNamePl());
-        result.setNameEn(this.getNameEn());
-        result.setYear(Year.of(Integer.parseInt(this.getYear())));
-        result.setMonth(Month.of(Integer.parseInt(this.getMonth())));
-        result.setCityPl(this.getCityPl());
-        result.setCityEn(this.getCityEn());
-        result.setCountryPl(this.getCountryPl());
-        result.setCountryEn(this.getCountryEn());
-        result.setClient(this.getClient());
-        result.setIcoPath(this.getIcoPath());
-
-        return result;
-
-    }
 
 }
