@@ -31,7 +31,7 @@ class ProjectController {
     //---POST
     @PostMapping("/projects")
     ResponseEntity<Project> createProject(@RequestBody @Valid ProjectWriteModel projectWriteModel) {
-        Project result = repository.save(projectService.createProjectFromWriteModel(projectWriteModel));
+        Project result = projectService.createProjectFromWriteModel(projectWriteModel);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 

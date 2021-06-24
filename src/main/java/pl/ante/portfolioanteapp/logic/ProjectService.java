@@ -2,8 +2,8 @@ package pl.ante.portfolioanteapp.logic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.server.DelegatingServerHttpResponse;
 import org.springframework.stereotype.Service;
-import pl.ante.portfolioanteapp.exceptions.NoSuchTypeException;
 import pl.ante.portfolioanteapp.model.Project;
 import pl.ante.portfolioanteapp.model.ProjectRepository;
 import pl.ante.portfolioanteapp.model.Type;
@@ -14,6 +14,7 @@ import java.time.Month;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 public class ProjectService {
@@ -48,26 +49,19 @@ public class ProjectService {
         result.setTypes(applyTypes(projectWriteModel));
         result.setImages(projectWriteModel.getImages());
 
-        return result;
+        return projectRepository.save(result);
     }
 
     private List<Type> applyTypes(final ProjectWriteModel projectWriteModel) {
 
         List<Type> types = new ArrayList<>();
 
-
-        try {
-            for (Integer typeId : projectWriteModel.getTypes()) {
-                Type type = typeRepository.findById(typeId)
-                        .orElseThrow(() -> new NoSuchTypeException("There's no such Type"));
-                types.add(type);
-            }
-        } catch (NoSuchTypeException e) {
-            logger.error(e.getMessage(), e);
-        }
-
+        projectWriteModel.getTypes().stream()
+                .forEach(typeId -> {
+                    if(typeRepository.findById(typeId).isEmpty()) throw new IllegalArgumentException("There's no such Type");
+                    else types.add(typeRepository.findById(typeId).get());
+                });
 
         return types;
-
     }
 }

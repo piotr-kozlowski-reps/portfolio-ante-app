@@ -27,6 +27,10 @@ public class ProjectImage {
     //---constr
     public ProjectImage() {
     }
+    public ProjectImage(final String path, final Boolean big) {
+        this.path = path;
+        this.big = big;
+    }
 
 
     //---get-set

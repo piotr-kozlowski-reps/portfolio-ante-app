@@ -26,7 +26,7 @@ public class Type {
     //---constr
     public Type() {
     }
-    Type(final Integer id, final String type) {
+    public Type(final Integer id, final String type) {
         this.id = id;
         this.type = type;
     }
