@@ -2,9 +2,12 @@ package pl.ante.portfolioanteapp.logic;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import pl.ante.portfolioanteapp.model.*;
+import pl.ante.portfolioanteapp.model.projection.ProjectSimpleInfoReadModel;
 import pl.ante.portfolioanteapp.model.projection.ProjectWriteModel;
 
 import java.lang.reflect.Field;
@@ -63,10 +66,9 @@ class ProjectServiceTest {
 
     }
 
-
     @Test
     @DisplayName("should choose correct Type from Type repository and add COMPETITION and EXTERIOR types")
-    void applyTypes__goodTypesIdProvided__choosesCorrectTypesAndAddsThemToProjectObject() {
+    void createProjectFromWriteModel__goodTypesIdProvided__choosesCorrectTypesAndAddsThemToProjectObject() {
 
         //given
         InMemoryProjectRepository inMemoryProjectRepository = inMemoryProjectRepository();
@@ -91,7 +93,7 @@ class ProjectServiceTest {
 
     @Test
     @DisplayName("should throw IllegalArgumentException when couldn't find Type by desired id")
-    void createProjectFromWriteModel__badIdType__throwsIllegalArgumentException() {
+    void createProjectFromWriteModel__badIdTypeProvided__throwsIllegalArgumentException() {
 
         //given
         InMemoryProjectRepository inMemoryProjectRepository = inMemoryProjectRepository();
@@ -112,6 +114,198 @@ class ProjectServiceTest {
                 .hasMessageContaining("no such Type");
     }
 
+    @Test
+    @DisplayName("should populate list of all polish projects when lang is NULL and category is not valid")
+    void createListOfAllProjects__langIsNull__populateListWithPLProjects() {
+
+        //given
+        InMemoryProjectRepository inMemoryProjectRepository = inMemoryProjectRepositoryFilledWithProjects();
+        //system under test
+        var toTest = new ProjectService(inMemoryProjectRepository, null);
+
+        //when
+        List<ProjectSimpleInfoReadModel> listOfAllProjects = toTest.createSortedListOfProjectsByType(null, null);
+
+        //then
+        assertThat(listOfAllProjects)
+                .isNotEmpty()
+                .extracting(ProjectSimpleInfoReadModel::getName)
+                .contains("nazwaPl_1")
+                .doesNotContain("nameEn_1");
+        assertThat(listOfAllProjects.get(0).getName().equals("nazwaPl_1"));
+        assertThat(listOfAllProjects.get(1).getName().equals("nazwaPl_2"));
+        assertThat(listOfAllProjects.get(2).getName().equals("nazwaPl_3"));
+    }
+
+    @Test
+    @DisplayName("should populate list of all polish projects when lang is not PL or EN")
+    void createListOfAllProjects__langIsNotPLOrEN__populateListWithPLProjects() {
+
+        //given
+        InMemoryProjectRepository inMemoryProjectRepository = inMemoryProjectRepositoryFilledWithProjects();
+        //and
+        String lang = "DE";
+        //system under test
+        var toTest = new ProjectService(inMemoryProjectRepository, null);
+
+        //when
+        List<ProjectSimpleInfoReadModel> listOfAllProjects = toTest.createSortedListOfProjectsByType(lang, null);
+
+        //then
+        assertThat(listOfAllProjects)
+                .isNotEmpty()
+                .extracting(project -> project.getName())
+                .contains("nazwaPl_1")
+                .doesNotContain("nameEn_1");
+        assertThat(listOfAllProjects.get(0).getName().equals("nazwaPl_1"));
+        assertThat(listOfAllProjects.get(1).getName().equals("nazwaPl_2"));
+        assertThat(listOfAllProjects.get(2).getName().equals("nazwaPl_3"));
+    }
+
+    @Test
+    @DisplayName("should populate list of all polish projects when lang is not PL or EN and category in NULL")
+    void createListOfAllProjects__langIsNotPLOrENAndCategoryIsNotValid__populateListWithPLProjects() {
+
+        //given
+        InMemoryProjectRepository inMemoryProjectRepository = inMemoryProjectRepositoryFilledWithProjects();
+        //and
+        String lang = "DE";
+        //system under test
+        var toTest = new ProjectService(inMemoryProjectRepository, null);
+
+        //when
+        List<ProjectSimpleInfoReadModel> listOfAllProjects = toTest.createSortedListOfProjectsByType(lang, null);
+
+        //then
+        assertThat(listOfAllProjects)
+                .isNotEmpty()
+                .extracting(project -> project.getName())
+                .contains("nazwaPl_1")
+                .doesNotContain("nameEn_1");
+        assertThat(listOfAllProjects.get(0).getName().equals("nazwaPl_1"));
+        assertThat(listOfAllProjects.get(1).getName().equals("nazwaPl_2"));
+        assertThat(listOfAllProjects.get(2).getName().equals("nazwaPl_3"));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {-10, -2, 0, 8, 15, 500})
+    @DisplayName("should populate list of all polish projects when lang is not PL or EN and category has wrong values")
+    void createListOfAllProjects__langIsNotPLOrENAndCategoryHasWrongValues__populateListWithPLProjects(int number) {
+
+        //given
+        InMemoryProjectRepository inMemoryProjectRepository = inMemoryProjectRepositoryFilledWithProjects();
+        //and
+        String lang = "DE";
+        //and
+        Integer category = number;
+        //and
+        InMemoryTypeRepository inMemoryTypeRepository = inMemoryTypeRepository();
+        //system under test
+        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository);
+
+        //when
+        List<ProjectSimpleInfoReadModel> listOfAllProjects = toTest.createSortedListOfProjectsByType(lang, category);
+
+        //then
+        assertThat(listOfAllProjects)
+                .isNotEmpty()
+                .extracting(project -> project.getName())
+                .contains("nazwaPl_1")
+                .doesNotContain("nameEn_1");
+        assertThat(listOfAllProjects.get(0).getName().equals("nazwaPl_1"));
+        assertThat(listOfAllProjects.get(1).getName().equals("nazwaPl_2"));
+        assertThat(listOfAllProjects.get(2).getName().equals("nazwaPl_3"));
+    }
+
+    @Test
+    @DisplayName("should populate list of all polish projects when lang is PL")
+    void createListOfAllProjects__langIsPL__populateListWithPLProjects() {
+
+        //given
+        InMemoryProjectRepository inMemoryProjectRepository = inMemoryProjectRepositoryFilledWithProjects();
+        //and
+        String lang = "PL";
+        //system under test
+        var toTest = new ProjectService(inMemoryProjectRepository, null);
+
+        //when
+        List<ProjectSimpleInfoReadModel> listOfAllProjects = toTest.createSortedListOfProjectsByType(lang, null);
+
+        //then
+        assertThat(listOfAllProjects)
+                .isNotEmpty()
+                .extracting(project -> project.getName())
+                .contains("nazwaPl_1")
+                .doesNotContain("nameEn_1");
+        assertThat(listOfAllProjects.get(0).getName().equals("nameEn_1"));
+        assertThat(listOfAllProjects.get(1).getName().equals("nameEn_2"));
+        assertThat(listOfAllProjects.get(2).getName().equals("nameEn_3"));
+    }
+
+    @Test
+    @DisplayName("should populate list of all English projects when lang is En")
+    void createListOfAllProjects__langIsEn__populateListWithPLProjects() {
+
+        //given
+        InMemoryProjectRepository inMemoryProjectRepository = inMemoryProjectRepositoryFilledWithProjects();
+        //and
+        String lang = "EN";
+        //system under test
+        var toTest = new ProjectService(inMemoryProjectRepository, null);
+
+        //when
+        List<ProjectSimpleInfoReadModel> listOfAllProjects = toTest.createSortedListOfProjectsByType(lang, null);
+
+        //then
+        assertThat(listOfAllProjects)
+                .isNotEmpty()
+                .extracting(project -> project.getName())
+                .contains("nameEn_1")
+                .doesNotContain("nazwaPl_1");
+        assertThat(listOfAllProjects.get(0).getName().equals("nazwaPl_1"));
+        assertThat(listOfAllProjects.get(1).getName().equals("nazwaPl_2"));
+        assertThat(listOfAllProjects.get(2).getName().equals("nazwaPl_3"));
+    }
+
+    @Test
+    @DisplayName("should populate list of categorised polish projects when lang is PL and chosen category is OK")
+    void createListOfCategorizedProjects__langIsPLAnd__populateListWithPLProjects() {
+
+        //given
+        InMemoryProjectRepository inMemoryProjectRepository = inMemoryProjectRepositoryFilledWithCategorizedProjects();
+        //and
+        InMemoryTypeRepository inMemoryTypeRepository = inMemoryTypeRepository();
+        //and
+        String lang = "PL";
+        //and
+        int typeId = 7;
+        //system under test
+        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository);
+
+        //when
+        List<ProjectSimpleInfoReadModel> listOfCategorisedProjects = toTest.createSortedListOfProjectsByType(lang, typeId);
+
+        //then
+        assertThat(listOfCategorisedProjects)
+                .isNotEmpty()
+                .hasSize(7)
+                .extracting(project -> project.getName())
+                .contains("nazwaPl_1")
+                .doesNotContain("nameEn_1");
+//        assertThat(listOfAllProjects.get(0).getName().equals("nameEn_1"));
+//        assertThat(listOfAllProjects.get(1).getName().equals("nameEn_2"));
+//        assertThat(listOfAllProjects.get(2).getName().equals("nameEn_3"));
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -119,6 +313,7 @@ class ProjectServiceTest {
 
 
     //--- utils
+
 
     //inMemory Project Repo
     private InMemoryProjectRepository inMemoryProjectRepository() {
@@ -171,10 +366,80 @@ class ProjectServiceTest {
                     .anyMatch(project -> project.getId() == id);
         }
     };
+    private InMemoryProjectRepository inMemoryProjectRepositoryFilledWithProjects() {
+        var repository =  new InMemoryProjectRepository();
+        fillWithProjects(repository);
+        return repository;
+    }
+    private static void fillWithProjects(ProjectRepository repository) {
+        Project mockproject1 = createProject("nazwaPl_2", "nameEn_2", Year.of(2000), Month.of(12), List.of(1,3));
+        Project mockproject2 = createProject("nazwaPl_1", "nameEn_1",Year.of(2000), Month.of(1), List.of(2));
+        Project mockproject3 = createProject("nazwaPl_3", "nameEn_3",Year.of(2020), Month.of(5), List.of(5, 7));
+        repository.save(mockproject1);
+        repository.save(mockproject2);
+        repository.save(mockproject3);
+
+    }
+    private InMemoryProjectRepository inMemoryProjectRepositoryFilledWithCategorizedProjects() {
+        var repository =  new InMemoryProjectRepository();
+        fillWithCategorizedProjects(repository);
+        return repository;
+    }
+    private static void fillWithCategorizedProjects(ProjectRepository repository) {
+        //1, new Type(1, "COMPETITION"),
+        //2, new Type(2, "INTERIOR"),
+        //3, new Type(3, "EXTERIOR"),
+        //4, new Type(4, "ANIMATION"),
+        //5, new Type(5, "PRODUCT_MODEL"),
+        //6, new Type(6, "PANORAMA"),
+        //7, new Type(7, "AR_APP")
+        Project mockCOMP = createProject("nazwaPl_COMP", "nameEn_COMP", Year.of(1995), Month.of(4), List.of(1));
+        Project mockCOMP_INT = createProject("nazwaPl_COMP_INT", "nameEn_COMP_INT",Year.of(1995), Month.of(1), List.of(1,2));
+        Project mockprojectCOMP_INT_EXT= createProject("nazwaPl_COMP_INT_EXT", "nameEn_COMP_INT_EXT",Year.of(2020), Month.of(5), List.of(1, 2, 3));
+        Project mockprojectCOMP_INT_EXT_ANI= createProject("nazwaPl_COMP_INT_EXT_ANI", "nameEn_COMP_INT_EXT_ANI",Year.of(2019), Month.of(3), List.of(1, 2, 3,4));
+        Project mockprojectCOMP_INT_EXT_ANI_PROD= createProject("nazwaPl_COMP_INT_EXT_ANI_PROD", "nameEn_COMP_INT_EXT_ANI_PROD",Year.of(2019), Month.of(1), List.of(1, 2, 3, 4));
+        Project mockprojectCOMP_INT_EXT_ANI_PROD_PANO= createProject("nazwaPl_COMP_INT_EXT_ANI_PROD_PANO", "nameEn_COMP_INT_EXT_ANI_PROD_PANO",Year.of(2019), Month.of(12), List.of(1, 2, 3, 5, 6));
+        Project mockprojectCOMP_INT_EXT_ANI_PROD_PANO_AR= createProject("nazwaCOMP_INT_EXT_ANI_PROD_PANO_AR", "nameEn_COMP_INT_EXT_ANI_PROD_PANO_AR",Year.of(2020), Month.of(5), List.of(1, 2, 3, 4, 5, 6, 7));
+        repository.save(mockCOMP);
+        repository.save(mockCOMP_INT);
+        repository.save(mockprojectCOMP_INT_EXT);
+        repository.save(mockprojectCOMP_INT_EXT_ANI);
+        repository.save(mockprojectCOMP_INT_EXT_ANI_PROD);
+        repository.save(mockprojectCOMP_INT_EXT_ANI_PROD_PANO);
+        repository.save(mockprojectCOMP_INT_EXT_ANI_PROD_PANO_AR);
+
+    }
+    private static Project createProject(String namePl, String nameEn, Year year, Month month, List<Integer> typesIds) {
+
+        InMemoryTypeRepository inMemoryTypeRepository = inMemoryTypeRepository();
+
+        Project result = new Project();
+        result.setNamePl(namePl);
+        result.setNameEn(nameEn);
+        result.setYear(year);
+        result.setMonth(month);
+        result.setCityPl("cityPl");
+        result.setCityEn("cityEn");
+        result.setCountryPl("countryPl");
+        result.setCountryEn("countryEn");
+        result.setClient("client");
+        result.setIcoPath("icoPath");
+        result.setTypes(typesIds.stream()
+                .map(typeId -> inMemoryTypeRepository.findById(typeId).get())
+                .collect(Collectors.toList())
+        );
+        result.setImages(Set.of(
+                new ProjectImage("path1", true),
+                new ProjectImage("path2", false)
+        ));
+
+        return result;
+    }
+
 
 
     //inMemory Type Repo
-    private InMemoryTypeRepository inMemoryTypeRepository() {
+    private static InMemoryTypeRepository inMemoryTypeRepository() {
         return new InMemoryTypeRepository();
     }
     private static class InMemoryTypeRepository implements TypeRepository {
@@ -198,7 +463,14 @@ class ProjectServiceTest {
         public Optional<Type> findById(final Integer id) {
             return Optional.ofNullable(map.get(id));
         }
+
+        @Override
+        public List<Type> findAll() {
+            return map.values().stream()
+                    .collect(Collectors.toList());
+        }
     }
+
 
     //mock WriteModel
     private ProjectWriteModel createProjectWriteModel(Set<Integer> typesSet, Set<ProjectImage> projectImagesSet) {
@@ -217,6 +489,7 @@ class ProjectServiceTest {
         when(projectWriteModel.getImages()).thenReturn(projectImagesSet);
         return projectWriteModel;
     }
+
 
     //WriteModelWithCorrectData
     private ProjectWriteModel getProjectWriteModelWithCorrectData() {

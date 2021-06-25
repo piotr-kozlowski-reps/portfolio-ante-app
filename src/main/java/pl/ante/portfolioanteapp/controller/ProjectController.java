@@ -1,11 +1,12 @@
 package pl.ante.portfolioanteapp.controller;
 
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.ante.portfolioanteapp.logic.ProjectService;
 import pl.ante.portfolioanteapp.model.Project;
 import pl.ante.portfolioanteapp.model.ProjectRepository;
+import pl.ante.portfolioanteapp.model.projection.ProjectSimpleInfoReadModel;
 import pl.ante.portfolioanteapp.model.projection.ProjectWriteModel;
 
 import javax.validation.Valid;
@@ -27,7 +28,6 @@ class ProjectController {
     }
 
 
-
     //---POST
     @PostMapping("/projects")
     ResponseEntity<Project> createProject(@RequestBody @Valid ProjectWriteModel projectWriteModel) {
@@ -36,31 +36,42 @@ class ProjectController {
     }
 
 
-//    @PostMapping("/projects")
-//    ResponseEntity<Project> createProject(@RequestBody @Valid Project toCreate) {
-//        Project result = repository.save(toCreate);
-//        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
-//    }
-
-
 
     //---GETs
     @GetMapping(value = "/projects", params = {"!sort", "!page", "!size"})
-    ResponseEntity<List<Project>> readAllTasks(){
-        return ResponseEntity.ok(repository.findAll());
+    ResponseEntity<List<ProjectSimpleInfoReadModel>> readAllProjects(@Param("lang") String lang, @Param("category") Integer category) {
+        return ResponseEntity.ok(projectService.createSortedListOfProjectsByType(lang, category));
     }
 
-    @GetMapping(value = "/projects")
-    ResponseEntity<List<Project>> readAllTasks(Pageable page){
-        return ResponseEntity.ok(repository.findAll(page).getContent());  //Without .getContent returns Page<T> with a lot more info for page (Spring - przeglad / Pageable and Page)
-    }
 
-    @GetMapping("/projects/{id}")
-    ResponseEntity<Project> readById(@PathVariable int id) {
-        return repository.findById(id)
-                .map(project -> ResponseEntity.ok(project))
-                .orElse(ResponseEntity.notFound().build());
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+//    @GetMapping(value = "/projects", params = {"!sort", "!page", "!size"})
+//    ResponseEntity<List<Project>> readAllTasks(){
+//        return ResponseEntity.ok(repository.findAll());
+//    }
+//
+//    @GetMapping(value = "/projects")
+//    ResponseEntity<List<Project>> readAllTasks(Pageable page){
+//        return ResponseEntity.ok(repository.findAll(page).getContent());  //Without .getContent returns Page<T> with a lot more info for page (Spring - przeglad / Pageable and Page)
+//    }
+//
+//    @GetMapping("/projects/{id}")
+//    ResponseEntity<Project> readById(@PathVariable int id) {
+//        return repository.findById(id)
+//                .map(project -> ResponseEntity.ok(project))
+//                .orElse(ResponseEntity.notFound().build());
+//    }
 
 
 
