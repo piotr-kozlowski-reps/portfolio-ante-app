@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -59,4 +60,16 @@ public class Type {
     }
 
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Type type1 = (Type) o;
+        return id.equals(type1.id) && type.equals(type1.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, type);
+    }
 }

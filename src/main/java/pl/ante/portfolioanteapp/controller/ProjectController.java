@@ -1,5 +1,7 @@
 package pl.ante.portfolioanteapp.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +11,7 @@ import pl.ante.portfolioanteapp.model.ProjectRepository;
 import pl.ante.portfolioanteapp.model.projection.ProjectSimpleInfoReadModel;
 import pl.ante.portfolioanteapp.model.projection.ProjectWriteModel;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -16,7 +19,7 @@ import java.util.List;
 @RestController
 class ProjectController {
 
-
+    private static Logger logger = LoggerFactory.getLogger(ProjectController.class);
     private final ProjectRepository repository;
     private final ProjectService projectService;
 
@@ -28,7 +31,7 @@ class ProjectController {
     }
 
 
-    //---POST
+    //---POSTs
     @PostMapping("/projects")
     ResponseEntity<Project> createProject(@RequestBody @Valid ProjectWriteModel projectWriteModel) {
         Project result = projectService.createProjectFromWriteModel(projectWriteModel);
@@ -39,69 +42,58 @@ class ProjectController {
 
     //---GETs
     @GetMapping(value = "/projects", params = {"!sort", "!page", "!size"})
-    ResponseEntity<List<ProjectSimpleInfoReadModel>> readAllProjects(@Param("lang") String lang, @Param("category") Integer category) {
-        return ResponseEntity.ok(projectService.createSortedListOfProjectsByType(lang, category));
+    ResponseEntity<List<ProjectSimpleInfoReadModel>> readAllProjects(@Param("lang") String lang, @Param("type") Integer typeId) {
+        return ResponseEntity.ok(projectService.createSortedListOfProjectsByType(lang, typeId));
+    }
+
+    @GetMapping("/projects/{id}")
+    ResponseEntity<?> readById(@PathVariable int id) {
+        if (repository.findById(id).isPresent()) {
+            Project project = repository.findById(id).get();
+            return ResponseEntity.ok(project);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    //---PUTs
+    //TODO: tests
+    @PutMapping("/projects/{id}")
+    ResponseEntity<?> updateProject(@PathVariable int id, @RequestBody @Valid ProjectWriteModel projectWriteModel) {
+        if (!repository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        repository.findById(id)
+                .ifPresent(project -> {
+                    project.updateFromAndWrite(projectWriteModel, projectService);
+                });
+        return ResponseEntity.noContent().build();
     }
 
 
+    //TODO: doesn't persist in DB
+    //TODO: tests
+    //---DELETEs
+    @Transactional
+    @DeleteMapping("/projects/{id}")
+    ResponseEntity<Void> deleteProject(@PathVariable int id) {
+
+        if (repository.findById(id).isPresent()) {
+            repository.deleteById(id);
+            logger.info("Project with id: " + id + " has been deleted");
+            return ResponseEntity.noContent().build();
+        } else {
+            logger.info("Deletion aborted, no project with id: " + id);
+            return ResponseEntity.notFound().build();
+        }
 
 
+    }
 
-
-
-
-
-
-
-
-
-
-//    @GetMapping(value = "/projects", params = {"!sort", "!page", "!size"})
-//    ResponseEntity<List<Project>> readAllTasks(){
-//        return ResponseEntity.ok(repository.findAll());
-//    }
-//
 //    @GetMapping(value = "/projects")
 //    ResponseEntity<List<Project>> readAllTasks(Pageable page){
 //        return ResponseEntity.ok(repository.findAll(page).getContent());  //Without .getContent returns Page<T> with a lot more info for page (Spring - przeglad / Pageable and Page)
 //    }
-//
-//    @GetMapping("/projects/{id}")
-//    ResponseEntity<Project> readById(@PathVariable int id) {
-//        return repository.findById(id)
-//                .map(project -> ResponseEntity.ok(project))
-//                .orElse(ResponseEntity.notFound().build());
-//    }
-
-
-
-
-//        @PostMapping("/projects")
-//        ResponseEntity<ProjectSimpleInfoReadModel> createProject(@Param("lang") String lang, @RequestBody @Valid ProjectWriteModel projectWriteModel) {
-//            Project project = repository.save(projectWriteModel.toProject());
-//            ProjectSimpleInfoReadModel result = ProjectSimpleInfoFactory.getInstance().getProjectSimpleInfoReadModel(lang, project);
-//        return ResponseEntity.created(URI.create("/" + project.getId())).body(result);
-//    }
-
-
-//    //PUTs
-//    @PutMapping("/projects/{id}")
-//    ResponseEntity<?> updateProject(@PathVariable int id, @RequestBody @Valid Project toUpdate) {
-//        if (!repository.existsById(id)) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        repository.findById(id)
-//                .ifPresent(project -> {
-//                    project.updateFrom(toUpdate);
-//                    repository.save(project);
-//                });
-//        return ResponseEntity.noContent().build();
-//    }
-
-
-
-
-
 
 
 
@@ -124,5 +116,4 @@ class ProjectController {
 //        EntityModel<Project> projectEntityModel = EntityModel.of(projectById.get(), link);
 //        return ResponseEntity.ok(projectEntityModel);
 //    }
-
 }

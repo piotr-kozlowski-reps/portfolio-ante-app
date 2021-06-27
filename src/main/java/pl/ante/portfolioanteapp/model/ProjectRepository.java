@@ -18,6 +18,10 @@ public interface ProjectRepository {
     //POST,PUT
     Project save(Project entity);
 
+    //DELETE
+    void deleteById(Integer integer);
+
+
 
     //utils
     boolean existsById(Integer id);

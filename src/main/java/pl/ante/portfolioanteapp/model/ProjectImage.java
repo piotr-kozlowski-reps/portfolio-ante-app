@@ -14,6 +14,7 @@ public class ProjectImage {
 
     private String path;
     private Boolean big;
+    private Integer orderNumber;
 
     @ManyToOne
     @JoinColumn(name = "project_id")
@@ -27,9 +28,10 @@ public class ProjectImage {
     //---constr
     public ProjectImage() {
     }
-    public ProjectImage(final String path, final Boolean big) {
+    public ProjectImage(final String path, final Boolean big, final Integer order) {
         this.path = path;
         this.big = big;
+        this.orderNumber = order;
     }
 
 
@@ -52,6 +54,13 @@ public class ProjectImage {
     void setBig(final Boolean big) {
         this.big = big;
     }
+    public Integer getOrder() {
+        return orderNumber;
+    }
+    void setOrder(final Integer order) {
+        this.orderNumber = order;
+    }
+
 
     @PrePersist
     void prePersist() {

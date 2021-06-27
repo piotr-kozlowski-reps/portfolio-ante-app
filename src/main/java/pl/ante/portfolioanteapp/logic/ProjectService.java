@@ -3,10 +3,7 @@ package pl.ante.portfolioanteapp.logic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pl.ante.portfolioanteapp.model.Project;
-import pl.ante.portfolioanteapp.model.ProjectRepository;
-import pl.ante.portfolioanteapp.model.Type;
-import pl.ante.portfolioanteapp.model.TypeRepository;
+import pl.ante.portfolioanteapp.model.*;
 import pl.ante.portfolioanteapp.model.projection.ProjectSimpleInfoFactory;
 import pl.ante.portfolioanteapp.model.projection.ProjectSimpleInfoReadModel;
 import pl.ante.portfolioanteapp.model.projection.ProjectSimpleInfoReadModelPL;
@@ -14,10 +11,9 @@ import pl.ante.portfolioanteapp.model.projection.ProjectWriteModel;
 
 import java.time.Month;
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ProjectService {
@@ -37,7 +33,7 @@ public class ProjectService {
 
     //---methods
 
-    //---POST
+    //---POST/PUT
     public Project createProjectFromWriteModel(final ProjectWriteModel projectWriteModel) {
 
         var result = new Project();
@@ -52,9 +48,24 @@ public class ProjectService {
         result.setClient(projectWriteModel.getClient());
         result.setIcoPath(projectWriteModel.getIcoPath());
         result.setTypes(applyTypes(projectWriteModel));
-        result.setImages(projectWriteModel.getImages());
+        result.setImages(applyImages(projectWriteModel));
 
         return projectRepository.save(result);
+    }
+    public void updateProjectFromWriteModel(final Project project, final ProjectWriteModel projectWriteModel) {
+        project.setNamePl(projectWriteModel.getNamePl());
+        project.setNameEn(projectWriteModel.getNameEn());
+        project.setYear(Year.of(projectWriteModel.getYear()));
+        project.setMonth(Month.of(projectWriteModel.getMonth()));
+        project.setCityPl(projectWriteModel.getCityPl());
+        project.setCityEn(projectWriteModel.getCityEn());
+        project.setCountryPl(projectWriteModel.getCountryPl());
+        project.setCountryEn(projectWriteModel.getCountryEn());
+        project.setClient(projectWriteModel.getClient());
+        project.setIcoPath(projectWriteModel.getIcoPath());
+        project.setTypes(applyTypes(projectWriteModel));
+        project.setImages(applyImages(projectWriteModel));
+        projectRepository.save(project);
     }
     private List<Type> applyTypes(final ProjectWriteModel projectWriteModel) {
 
@@ -71,6 +82,11 @@ public class ProjectService {
 
         return types;
     }
+    private Set<ProjectImage> applyImages(final ProjectWriteModel projectWriteModel) {
+        return projectWriteModel.getImages().stream()
+                .map(imageInfo -> new ProjectImage(imageInfo.getPath(), imageInfo.getBig(), imageInfo.getOrder()))
+                .collect(Collectors.toSet());
+    }
 
     //---GET
     public List<ProjectSimpleInfoReadModel> createSortedListOfProjectsByType(final String lang, final Integer typeAsInt) {
@@ -80,24 +96,49 @@ public class ProjectService {
             return createListOfProjectsReadModelsInSpecifiedLangAndOrder(projectRepository.findAll(), lang);
         }
 
+
+
+
+
+
+        //-----------------------------------------
+//        Type foundType = typeRepository.findById(typeAsInt).get();
+//
+//        List<Project> projectListByCategory = new ArrayList<>();
+//
+//        List<Project> allProjectsList = projectRepository.findAll();
+//
+//        for (Project project : allProjectsList) {
+//
+//            List<Type> typesOfProject = project.getTypes();
+//
+//            for (Type type : typesOfProject) {
+//                if (type.equals(foundType)) {
+//                    projectListByCategory.add(project);
+//                }
+//            }
+//
+//        }
+//
+//        return createListOfProjectsReadModelsInSpecifiedLangAndOrder(projectListByCategory, lang);
+        //-----------------------------------------
+
+
+
         //good category
         Type foundType = typeRepository.findById(typeAsInt).get();
-        List<Project> projectListByCategory = projectRepository.findAll().stream()
+
+        List<Project> projectListByType = projectRepository.findAll().stream()
                 .filter(project -> {
-//                    project.getTypes().stream()
-//                            .map(type -> {
-//                                if (type == foundType) return true;
-//                                else return false;
-//                            });
                     for (Type type : project.getTypes()) {
-                        if (type == foundType) return true;
+                        if(type.equals(foundType)) return true;
                     }
                     return false;
-
                 })
                 .collect(Collectors.toList());
 
-        return createListOfProjectsReadModelsInSpecifiedLangAndOrder(projectListByCategory, lang);
+        return createListOfProjectsReadModelsInSpecifiedLangAndOrder(projectListByType, lang);
+
     }
 
 
@@ -117,13 +158,14 @@ public class ProjectService {
             logger.info("Null or bad language desired - only PL and EN are expected - populated by default PL list");
 
             return projects.stream()
-                    .sorted(Comparator.comparing(Project::getYear).thenComparing(Project::getMonth))
+                    .sorted(Comparator.comparing(Project::getYear).thenComparing(Project::getMonth).thenComparing(Project::getId).reversed())
                     .map(ProjectSimpleInfoReadModelPL::new)
                     .collect(Collectors.toList());
         }
 
         //language is valid
         return projects.stream()
+                .sorted(Comparator.comparing(Project::getYear).thenComparing(Project::getMonth).thenComparing(Project::getId).reversed())
                 .map(project -> {
                     ProjectSimpleInfoReadModel result = ProjectSimpleInfoFactory.getInstance().getProjectSimpleInfoReadModel(lang, project);
                     return result;

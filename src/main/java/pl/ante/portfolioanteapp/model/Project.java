@@ -1,6 +1,8 @@
 package pl.ante.portfolioanteapp.model;
 
 import org.hibernate.annotations.TypeDef;
+import pl.ante.portfolioanteapp.logic.ProjectService;
+import pl.ante.portfolioanteapp.model.projection.ProjectWriteModel;
 import pl.ante.portfolioanteapp.model.projection.utils.YearType;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -56,8 +59,18 @@ public class Project {
             inverseJoinColumns = @JoinColumn(name = "id_type"))
     private List<Type> types = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
-    private Set<ProjectImage> images;
+//    @OneToMany(
+//            cascade = CascadeType.ALL,
+//            mappedBy = "project",
+//            orphanRemoval = true)
+//    private Set<ProjectImage> images = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "project_id")
+    private Set<ProjectImage> images = new HashSet<>();
+
+
+
 
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
@@ -164,13 +177,8 @@ public class Project {
 
     //---methods
     //TODO: always update this method when databases changes
-    public void updateFrom(Project source) {
-        namePl = source.getNamePl();
-        nameEn = source.getNameEn();
-    }
-
-    public void addType(Type type) {
-        types.add(type);
+    public void updateFromAndWrite(ProjectWriteModel source, final ProjectService projectService) {
+        projectService.updateProjectFromWriteModel(this, source);
     }
 
 }

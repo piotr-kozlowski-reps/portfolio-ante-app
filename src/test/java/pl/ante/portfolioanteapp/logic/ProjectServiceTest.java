@@ -3,6 +3,8 @@ package pl.ante.portfolioanteapp.logic;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,11 +12,13 @@ import pl.ante.portfolioanteapp.model.*;
 import pl.ante.portfolioanteapp.model.projection.ProjectSimpleInfoReadModel;
 import pl.ante.portfolioanteapp.model.projection.ProjectWriteModel;
 
+import javax.swing.text.html.parser.Entity;
 import java.lang.reflect.Field;
 import java.time.Month;
 import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -115,7 +119,7 @@ class ProjectServiceTest {
     }
 
     @Test
-    @DisplayName("should populate list of all polish projects when lang is NULL and category is not valid")
+    @DisplayName("should populate list of all polish projects when lang is NULL and type is not valid")
     void createListOfAllProjects__langIsNull__populateListWithPLProjects() {
 
         //given
@@ -132,9 +136,9 @@ class ProjectServiceTest {
                 .extracting(ProjectSimpleInfoReadModel::getName)
                 .contains("nazwaPl_1")
                 .doesNotContain("nameEn_1");
-        assertThat(listOfAllProjects.get(0).getName().equals("nazwaPl_1"));
-        assertThat(listOfAllProjects.get(1).getName().equals("nazwaPl_2"));
-        assertThat(listOfAllProjects.get(2).getName().equals("nazwaPl_3"));
+        assertThat(listOfAllProjects.get(0).getName()).isEqualTo("nazwaPl_1");
+        assertThat(listOfAllProjects.get(1).getName()).isEqualTo("nazwaPl_2");
+        assertThat(listOfAllProjects.get(2).getName()).isEqualTo("nazwaPl_3");
     }
 
     @Test
@@ -154,16 +158,16 @@ class ProjectServiceTest {
         //then
         assertThat(listOfAllProjects)
                 .isNotEmpty()
-                .extracting(project -> project.getName())
+                .extracting(ProjectSimpleInfoReadModel::getName)
                 .contains("nazwaPl_1")
                 .doesNotContain("nameEn_1");
-        assertThat(listOfAllProjects.get(0).getName().equals("nazwaPl_1"));
-        assertThat(listOfAllProjects.get(1).getName().equals("nazwaPl_2"));
-        assertThat(listOfAllProjects.get(2).getName().equals("nazwaPl_3"));
+        assertThat(listOfAllProjects.get(0).getName()).isEqualTo("nazwaPl_1");
+        assertThat(listOfAllProjects.get(1).getName()).isEqualTo("nazwaPl_2");
+        assertThat(listOfAllProjects.get(2).getName()).isEqualTo("nazwaPl_3");
     }
 
     @Test
-    @DisplayName("should populate list of all polish projects when lang is not PL or EN and category in NULL")
+    @DisplayName("should populate list of all polish projects when lang is not PL or EN and type in NULL")
     void createListOfAllProjects__langIsNotPLOrENAndCategoryIsNotValid__populateListWithPLProjects() {
 
         //given
@@ -179,17 +183,17 @@ class ProjectServiceTest {
         //then
         assertThat(listOfAllProjects)
                 .isNotEmpty()
-                .extracting(project -> project.getName())
+                .extracting(ProjectSimpleInfoReadModel::getName)
                 .contains("nazwaPl_1")
                 .doesNotContain("nameEn_1");
-        assertThat(listOfAllProjects.get(0).getName().equals("nazwaPl_1"));
-        assertThat(listOfAllProjects.get(1).getName().equals("nazwaPl_2"));
-        assertThat(listOfAllProjects.get(2).getName().equals("nazwaPl_3"));
+        assertThat(listOfAllProjects.get(0).getName()).isEqualTo("nazwaPl_1");
+        assertThat(listOfAllProjects.get(1).getName()).isEqualTo("nazwaPl_2");
+        assertThat(listOfAllProjects.get(2).getName()).isEqualTo("nazwaPl_3");
     }
 
     @ParameterizedTest
     @ValueSource(ints = {-10, -2, 0, 8, 15, 500})
-    @DisplayName("should populate list of all polish projects when lang is not PL or EN and category has wrong values")
+    @DisplayName("should populate list of all polish projects when lang is not PL or EN and type has wrong values")
     void createListOfAllProjects__langIsNotPLOrENAndCategoryHasWrongValues__populateListWithPLProjects(int number) {
 
         //given
@@ -209,12 +213,12 @@ class ProjectServiceTest {
         //then
         assertThat(listOfAllProjects)
                 .isNotEmpty()
-                .extracting(project -> project.getName())
+                .extracting(ProjectSimpleInfoReadModel::getName)
                 .contains("nazwaPl_1")
                 .doesNotContain("nameEn_1");
-        assertThat(listOfAllProjects.get(0).getName().equals("nazwaPl_1"));
-        assertThat(listOfAllProjects.get(1).getName().equals("nazwaPl_2"));
-        assertThat(listOfAllProjects.get(2).getName().equals("nazwaPl_3"));
+        assertThat(listOfAllProjects.get(0).getName()).isEqualTo("nazwaPl_1");
+        assertThat(listOfAllProjects.get(1).getName()).isEqualTo("nazwaPl_2");
+        assertThat(listOfAllProjects.get(2).getName()).isEqualTo("nazwaPl_3");
     }
 
     @Test
@@ -234,12 +238,12 @@ class ProjectServiceTest {
         //then
         assertThat(listOfAllProjects)
                 .isNotEmpty()
-                .extracting(project -> project.getName())
+                .extracting(ProjectSimpleInfoReadModel::getName)
                 .contains("nazwaPl_1")
                 .doesNotContain("nameEn_1");
-        assertThat(listOfAllProjects.get(0).getName().equals("nameEn_1"));
-        assertThat(listOfAllProjects.get(1).getName().equals("nameEn_2"));
-        assertThat(listOfAllProjects.get(2).getName().equals("nameEn_3"));
+        assertThat(listOfAllProjects.get(0).getName()).isEqualTo("nazwaPl_1");
+        assertThat(listOfAllProjects.get(1).getName()).isEqualTo("nazwaPl_2");
+        assertThat(listOfAllProjects.get(2).getName()).isEqualTo("nazwaPl_3");
     }
 
     @Test
@@ -259,26 +263,26 @@ class ProjectServiceTest {
         //then
         assertThat(listOfAllProjects)
                 .isNotEmpty()
-                .extracting(project -> project.getName())
+                .extracting(ProjectSimpleInfoReadModel::getName)
                 .contains("nameEn_1")
                 .doesNotContain("nazwaPl_1");
-        assertThat(listOfAllProjects.get(0).getName().equals("nazwaPl_1"));
-        assertThat(listOfAllProjects.get(1).getName().equals("nazwaPl_2"));
-        assertThat(listOfAllProjects.get(2).getName().equals("nazwaPl_3"));
+        assertThat(listOfAllProjects.get(0).getName()).isEqualTo("nameEn_1");
+        assertThat(listOfAllProjects.get(1).getName()).isEqualTo("nameEn_2");
+        assertThat(listOfAllProjects.get(2).getName()).isEqualTo("nameEn_3");
     }
 
     @Test
-    @DisplayName("should populate list of categorised polish projects when lang is PL and chosen category is OK")
+    @DisplayName("should populate list of typed polish projects when lang is PL and chosen type is OK")
     void createListOfCategorizedProjects__langIsPLAnd__populateListWithPLProjects() {
 
         //given
-        InMemoryProjectRepository inMemoryProjectRepository = inMemoryProjectRepositoryFilledWithCategorizedProjects();
+        InMemoryProjectRepository inMemoryProjectRepository = inMemoryProjectRepositoryFilledWithCorrectlyTypedProjects();
         //and
         InMemoryTypeRepository inMemoryTypeRepository = inMemoryTypeRepository();
         //and
         String lang = "PL";
         //and
-        int typeId = 7;
+        int typeId = 1;
         //system under test
         var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository);
 
@@ -289,12 +293,33 @@ class ProjectServiceTest {
         assertThat(listOfCategorisedProjects)
                 .isNotEmpty()
                 .hasSize(7)
-                .extracting(project -> project.getName())
-                .contains("nazwaPl_1")
-                .doesNotContain("nameEn_1");
-//        assertThat(listOfAllProjects.get(0).getName().equals("nameEn_1"));
-//        assertThat(listOfAllProjects.get(1).getName().equals("nameEn_2"));
-//        assertThat(listOfAllProjects.get(2).getName().equals("nameEn_3"));
+                .extracting(ProjectSimpleInfoReadModel::getName)
+                .contains("nazwaCOMP_INT_EXT_ANI_PROD_PANO_AR");
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("createTypeAmountArgumentsList")
+    @DisplayName("should have exact list objects amount of typed projects when chosen type is OK")
+    void createListOfCategorizedProjects__langIsPLAndCategoryWithResultAmountProvided__populateListWithExactProjectsAmount(int typeId, int amountOfProjectsInList) {
+
+        //given
+        InMemoryProjectRepository inMemoryProjectRepository = inMemoryProjectRepositoryFilledWithCorrectlyTypedProjects();
+        //and
+        InMemoryTypeRepository inMemoryTypeRepository = inMemoryTypeRepository();
+        //and
+        String lang = "PL";
+        //system under test
+        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository);
+
+        //when
+        List<ProjectSimpleInfoReadModel> listOfCategorisedProjects = toTest.createSortedListOfProjectsByType(lang, typeId);
+
+        //then
+        assertThat(listOfCategorisedProjects)
+                .isNotEmpty()
+                .hasSize(amountOfProjectsInList);
+
     }
 
 
@@ -360,6 +385,24 @@ class ProjectServiceTest {
             return entity;
         }
 
+//        @Override
+//        public void delete(final Project entity) {
+//
+//            for (Map.Entry<Integer, Project> entry : map.entrySet()) {
+//                if (entry.getValue().equals(entity)) {
+//                    map.remove(entry.getKey());
+//                }
+//            }
+//        }
+
+
+        @Override
+        public void deleteById(final Integer id) {
+            if (map.containsKey(id)) {
+                map.remove(id);
+            }
+        }
+
         @Override
         public boolean existsById(final Integer id) {
             return map.values().stream()
@@ -373,14 +416,14 @@ class ProjectServiceTest {
     }
     private static void fillWithProjects(ProjectRepository repository) {
         Project mockproject1 = createProject("nazwaPl_2", "nameEn_2", Year.of(2000), Month.of(12), List.of(1,3));
-        Project mockproject2 = createProject("nazwaPl_1", "nameEn_1",Year.of(2000), Month.of(1), List.of(2));
-        Project mockproject3 = createProject("nazwaPl_3", "nameEn_3",Year.of(2020), Month.of(5), List.of(5, 7));
+        Project mockproject2 = createProject("nazwaPl_3", "nameEn_3",Year.of(2000), Month.of(1), List.of(2));
+        Project mockproject3 = createProject("nazwaPl_1", "nameEn_1",Year.of(2020), Month.of(5), List.of(5, 7));
         repository.save(mockproject1);
         repository.save(mockproject2);
         repository.save(mockproject3);
 
     }
-    private InMemoryProjectRepository inMemoryProjectRepositoryFilledWithCategorizedProjects() {
+    private InMemoryProjectRepository inMemoryProjectRepositoryFilledWithCorrectlyTypedProjects() {
         var repository =  new InMemoryProjectRepository();
         fillWithCategorizedProjects(repository);
         return repository;
@@ -396,9 +439,9 @@ class ProjectServiceTest {
         Project mockCOMP = createProject("nazwaPl_COMP", "nameEn_COMP", Year.of(1995), Month.of(4), List.of(1));
         Project mockCOMP_INT = createProject("nazwaPl_COMP_INT", "nameEn_COMP_INT",Year.of(1995), Month.of(1), List.of(1,2));
         Project mockprojectCOMP_INT_EXT= createProject("nazwaPl_COMP_INT_EXT", "nameEn_COMP_INT_EXT",Year.of(2020), Month.of(5), List.of(1, 2, 3));
-        Project mockprojectCOMP_INT_EXT_ANI= createProject("nazwaPl_COMP_INT_EXT_ANI", "nameEn_COMP_INT_EXT_ANI",Year.of(2019), Month.of(3), List.of(1, 2, 3,4));
-        Project mockprojectCOMP_INT_EXT_ANI_PROD= createProject("nazwaPl_COMP_INT_EXT_ANI_PROD", "nameEn_COMP_INT_EXT_ANI_PROD",Year.of(2019), Month.of(1), List.of(1, 2, 3, 4));
-        Project mockprojectCOMP_INT_EXT_ANI_PROD_PANO= createProject("nazwaPl_COMP_INT_EXT_ANI_PROD_PANO", "nameEn_COMP_INT_EXT_ANI_PROD_PANO",Year.of(2019), Month.of(12), List.of(1, 2, 3, 5, 6));
+        Project mockprojectCOMP_INT_EXT_ANI= createProject("nazwaPl_COMP_INT_EXT_ANI", "nameEn_COMP_INT_EXT_ANI",Year.of(2019), Month.of(3), List.of(1, 2, 3, 4));
+        Project mockprojectCOMP_INT_EXT_ANI_PROD= createProject("nazwaPl_COMP_INT_EXT_ANI_PROD", "nameEn_COMP_INT_EXT_ANI_PROD",Year.of(2019), Month.of(1), List.of(1, 2, 3, 4, 5));
+        Project mockprojectCOMP_INT_EXT_ANI_PROD_PANO= createProject("nazwaPl_COMP_INT_EXT_ANI_PROD_PANO", "nameEn_COMP_INT_EXT_ANI_PROD_PANO",Year.of(2019), Month.of(12), List.of(1, 2, 3, 4, 5, 6));
         Project mockprojectCOMP_INT_EXT_ANI_PROD_PANO_AR= createProject("nazwaCOMP_INT_EXT_ANI_PROD_PANO_AR", "nameEn_COMP_INT_EXT_ANI_PROD_PANO_AR",Year.of(2020), Month.of(5), List.of(1, 2, 3, 4, 5, 6, 7));
         repository.save(mockCOMP);
         repository.save(mockCOMP_INT);
@@ -429,8 +472,8 @@ class ProjectServiceTest {
                 .collect(Collectors.toList())
         );
         result.setImages(Set.of(
-                new ProjectImage("path1", true),
-                new ProjectImage("path2", false)
+                new ProjectImage("path1", true, 2),
+                new ProjectImage("path2", false, 1)
         ));
 
         return result;
@@ -495,11 +538,24 @@ class ProjectServiceTest {
     private ProjectWriteModel getProjectWriteModelWithCorrectData() {
         Set<Integer> goodValuesSet = Set.of(1, 3);
         Set<ProjectImage> imagesSet = Set.of(
-                new ProjectImage("path1", true),
-                new ProjectImage("path2", false)
+                new ProjectImage("path1", true, 2),
+                new ProjectImage("path2", false, 1)
         );
         ProjectWriteModel projectWriteModel = createProjectWriteModel(goodValuesSet, imagesSet);
         return projectWriteModel;
+    }
+
+    //createTypeAmountArgumentsList
+    private static Stream<Arguments> createTypeAmountArgumentsList() {
+        return Stream.of(
+                Arguments.of(1, 7),
+                Arguments.of(2, 6),
+                Arguments.of(3, 5),
+                Arguments.of(4, 4),
+                Arguments.of(5, 3),
+                Arguments.of(6, 2),
+                Arguments.of(7, 1)
+        );
     }
 
 
