@@ -1,5 +1,6 @@
 package pl.ante.portfolioanteapp.logic;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,7 +13,6 @@ import pl.ante.portfolioanteapp.model.*;
 import pl.ante.portfolioanteapp.model.projection.ProjectSimpleInfoReadModel;
 import pl.ante.portfolioanteapp.model.projection.ProjectWriteModel;
 
-import javax.swing.text.html.parser.Entity;
 import java.lang.reflect.Field;
 import java.time.Month;
 import java.time.Year;
@@ -27,6 +27,8 @@ import static org.mockito.Mockito.when;
 
 class ProjectServiceTest {
 
+
+    //---tests
     @Test
     @DisplayName("should create Project from write model")
     void createProjectFromWriteModel__writeModelOK__createsAndSavesGroup() {
@@ -511,6 +513,11 @@ class ProjectServiceTest {
         public List<Type> findAll() {
             return map.values().stream()
                     .collect(Collectors.toList());
+        }
+
+        @Override
+        public Type save(final Type entity) {
+            throw new NotImplementedException();
         }
     }
 

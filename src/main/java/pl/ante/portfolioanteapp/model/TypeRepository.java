@@ -9,4 +9,7 @@ public interface TypeRepository {
     Optional<Type> findById(Integer id);
     List<Type> findAll();
 
+    //POST,PUT
+    Type save(Type entity);
+
 }

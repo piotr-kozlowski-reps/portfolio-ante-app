@@ -11,9 +11,11 @@ import pl.ante.portfolioanteapp.model.projection.ProjectWriteModel;
 
 import java.time.Month;
 import java.time.Year;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class ProjectService {
@@ -75,7 +77,7 @@ public class ProjectService {
                 .forEach(typeId -> {
                     if(typeRepository.findById(typeId).isEmpty()) {
                         logger.error("There's no such Type when project creation");
-                        throw new IllegalArgumentException("There's no such Type");
+                        throw new IllegalArgumentException("There's no such Project type");
                     }
                     else types.add(typeRepository.findById(typeId).get());
                 });

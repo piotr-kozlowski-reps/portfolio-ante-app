@@ -1,0 +1,79 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* box start */
+.cookies-info-box {
+	text-align: center;
+	font-size: 12px;
+	color: #000;
+	border: 1px solid #bbb;	
+}
+
+.cookies-info-box-bottom {
+  top:0;
+	left:0;
+	margin:0;
+	text-align: center;
+	font-size: 14px !important;
+	color: #000;
+	border: 1px solid #bbb;	
+}
+
+.cookiesEU-inner {
+	padding:10px !important;
+}
+
+.cookiesEU-text a:link, .cookiesEU-text a:visited {
+	color: #333;
+}
+
+.cookiesEU-text a:hover, .cookiesEU-text a:active {
+	color: #bbb;
+}
+
+body.cookiesEU {
+	background-color: #ddd;
+	margin-top: 10px;
+}
+
+.cookiesEUmainContent {
+	padding: 20px;
+	margin-left: 40px;
+	margin-right: 40px;
+	margin-bottom: 10px;	
+	margin-top: 10px;
+	background-color: #fff;
+	font-family: calibri, arial, sans-serif;
+	font-size: 14px;
+	color: #000;
+	border-radius: 20px;
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
+	border: 1px solid #bbb;		
+}
+/* box end */
+
+/* button start */
+.button {
+		color: #fff;
+		text-decoration: none;
+		display: inline-block;
+		padding:4px;
+		text-align:center;
+		font: normal 14px/16px Helvetica, Arial, sans-serif;
+		margin-left: 50px !important;
+		margin-top: 0px;
+}
+	
+.button.back {
+		position: relative;
+		background:url(../images/back01.png) no-repeat;
+		width:59px;
+		height:18px;
+}
+
+.button.back:hover {
+		background:url(../images/back02.png) no-repeat;
+}
+	
+/* button end */

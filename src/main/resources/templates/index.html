@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ante</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Bootstrap -->
+    <link th:href="@{/favicon.ico}" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap-custom.css}" rel="stylesheet">
+    <link th:href="@{/css/cookiesEU.css}" rel="stylesheet">
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-9180660-1', 'auto');
+  ga('send', 'pageview');
+
+  </script>
+  </head>
+  <body data-spy="scroll" data-target="#myScrollspy" data-offset="125">
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Nagłówek -->
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Treść -->
+
+        <!-- PL -->
+        <div class="modal-body" th:if="${lang} == 'PL'">
+
+          <p style="text-align:center">Firma ANTE została założona w 2000 roku. Naszą specjalnością jest grafika
+            trójwymiarowa.</p>
+
+          <p style="text-indent: 35px; text-align:justify">Główna część naszej działalności związana jest z
+            architekturą. Wykonujemy wizualizacje konkursowe, fotorealistyczne wizualizacje budynków i ich wnętrz,
+            panoramy 360°, animacje (standardowe jak i animacje 360°), wirtualne spacery (w oparciu o silniki Unity /
+            Unreal).</p>
+          <p style="text-indent: 35px; text-align:justify">Równie chętnie podejmujemy się projektów o innym charakterze.
+            Przykładem może być wykonanie modeli oraz renderingów produktowych (packshoty), wykonywanie modeli w postaci
+            3dmappingu z użyciem Drona, modeli do aplikacji mobilnych, modeli do wypalenia w krysztale itp.,itd.</p>
+          <br>
+          <p style="text-indent: 35px; text-align:justify">O jakości naszych usług świadczy portfolio, zaś zaufani
+            współpracownicy i wydajna renderfarma to gwarancja szybkiej realizacji zamówienia.</p>
+
+          <p style="text-align:center; padding-top:75px;margin: 0;">Zapraszamy do zapoznania się z listą naszych
+            klientów oraz do kontaktu z nami:</p>
+          <p style="text-align:center; margin: 0;">e-mail:
+            <script type="text/javascript">user = 'info';
+            site = 'ante.pl';
+            document.write('<strong>' + user + '@' + site + '</strong>');</script>
+          </p>
+          <p style="text-align:center; padding-bottom:78px; margin: 0">tel. <strong>32 720 29 91</strong></p>
+        </div>
+        <!-- PL end -->
+
+
+        <!-- EN -->
+        <div class="modal-body" th:if="${lang} == 'EN'">
+          <p style="text-align:center">ANTE started in 2000 and our core business is 3D imaging. From full architecture
+            projects visualisations to 360° animations, our portfolio has been growing ever since.</p>
+          <p style="text-indent: 35px; text-align:justify">A set of trusted co-workers and effective render farm gives
+            us opportunity to answer to extremely short deadlines and an increasing demand for the best image quality
+            available. We've done hundreds of projects and, most important, we've raised to meet expectations of our
+            clients throughout the world.</p>
+          <p style="text-indent: 35px; text-align:justify">Being a solution provider, we've been exploring most areas of
+            3D imaging and CGI. Competition visualisations, photorealistic exteriors ad interiors, animations (standard
+            as well as 360degrees), virtual walks (Unity/Unreal engine), pack-shots and 3d-models in any form (3dmapping
+            using drones, models for mobile apps, models for crystal burning, etc...) or any graphic project that you
+            think we may be up to.</p>
+          <p style="text-align:center; padding-top:10px;padding-bottom:10px;margin: 0;">Feel free to contact us and
+            we'll be glad to help.</p>
+          <p style="text-align:center; margin: 0;">e-mail:
+            <script type="text/javascript">user = 'info';
+            site = 'ante.pl';
+            document.write('<strong>' + user + '@' + site + '</strong>');</script>
+          </p>
+          <p style="text-align:center; padding-bottom:10px; margin: 0">phone: <strong>32 720 29 91</strong></p>
+          <p style="text-align:center; padding-bottom:78px;margin:0px">Meanwhile, check our clients list, visit our
+            portfolio and enjoy it.</p>
+        </div>
+        <!-- EN end -->
+
+        <div id="globe_tabs">
+        <div class="blok" th:if="${lang} == 'PL'"><h1>BLEND</h1><h2>[PORTUGALIA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>BLEND</h1><h2>[PORTUGAL]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>EDICOM</h1><h2>[POLSKA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>EDICOM</h1><h2>[POLAND]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>HERMANOWICZ REWSKI ARCHITEKCI</h1><h2>[POLSKA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>HERMANOWICZ REWSKI ARCHITEKCI</h1><h2>[POLAND]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>JEMS ARCHITEKCI</h1><h2>[POLSKA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>JEMS ARCHITEKCI</h1><h2>[POLAND]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>JOCA FARIA</h1><h2>[MOZAMBIK]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>JOCA FARIA</h1><h2>[MOZAMBIQUE]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>KEBETH STUDIO</h1><h2>[POLSKA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>KEBETH STUDIO</h1><h2>[POLAND]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>MĄKA-SOJKA ARCHITEKCI</h1><h2>[POLSKA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>MĄKA-SOJKA ARCHITEKCI</h1><h2>[POLAND]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>METRI</h1><h2>[POLSKA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>METRI</h1><h2>[POLAND]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>MKC ARCHITEKCI</h1><h2>[POLSKA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>MKC ARCHITEKCI</h1><h2>[POLAND]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>PM GROUP POLSKA</h1><h2>[POLSKA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>PM GROUP POLSKA</h1><h2>[POLAND]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>POLITECHNIKA ŚLĄSKA</h1><h2>[POLSKA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>POLITECHNIKA ŚLĄSKA</h1><h2>[POLAND]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>REMOBUD</h1><h2>[POLSKA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>REMOBUD</h1><h2>[POLAND]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>SGI</h1><h2>[POLSKA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>SGI</h1><h2>[POLAND]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>TANGRAM KITTERY</h1><h2>[USA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>TANGRAM KITTERY</h1><h2>[USA]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>TEVA</h1><h2>[POLSKA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>TEVA</h1><h2>[POLAND]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>THE VISIONARY WORKS COMPANY</h1><h2>[IRLANDIA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>THE VISIONARY WORKS COMPANY</h1><h2>[IRELAND]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>UNSER STROHHAUS</h1><h2>[AUSTRIA]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>UNSER STROHHAUS</h1><h2>[AUSTRIA]</h2></div>
+        <div class="blok" th:if="${lang} == 'PL'"><h1>VIRTUELL FORMAT</h1><h2>[NIEMCY]</h2></div>
+          <div class="blok" th:if="${lang} == 'EN'"><h1>VIRTUELL FORMAT</h1><h2>[GERMANY]</h2></div>
+</div>
+<img th:src="@{/images/about_ending.png}" alt="about ending">
+      </div>
+    </div>
+  </div>
+  <nav class="navbar">
+    <div class="container">
+      <div class="row menu-top">
+        <div class="col-xs-2">
+          <div class="lang">
+            <a th:href="@{/main(lang='EN',type=${type})}" th:if="${lang} == 'PL'">EN</a>
+            <a th:href="@{/main(lang='PL',type=${type})}" th:if="${lang} == 'EN'">PL</a>
+          </div>
+        </div>
+        <div class="col-xs-10">
+          <ul class="nav top-nav">
+            <li><a href="#kontakt" th:if="${lang} == 'PL'">Kontakt</a></li>
+            <li><a href="#kontakt" th:if="${lang} == 'EN'">Contact</a></li>
+            <li><a href="#onas" data-toggle="modal" data-target="#myModal" th:if="${lang} == 'PL'">O nas</a></li>
+            <li><a href="#onas" data-toggle="modal" data-target="#myModal" th:if="${lang} == 'EN'">About</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="logo-top text-center">
+          <a th:href="@{/main(lang=${lang},type=${type})}"><img th:src="@{/images/ante-logo.png}" alt="Ante logo"></a>
+        </div>
+      </div>
+    </div>
+    <div id="gallery">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div id="galleryCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+              <!-- Kontener dla slajdów -->
+              <div class="carousel-inner">
+                <div class="item active">
+                  <img th:src="@{/images/slider_pl_001.png}" alt="slider competitions" th:if="${lang} == 'PL'">
+                  <img th:src="@{/images/slider_pl_001en.png}" alt="slider competitions" th:if="${lang} == 'EN'">
+                </div>
+                <div class="item">
+                  <img th:src="@{/images/slider_pl_002.png}" alt="slider competitions">
+                </div>
+				<div class="item">
+                  <img th:src="@{/images/slider_pl_003.png}" alt="slider interiors" th:if="${lang} == 'PL'">
+                  <img th:src="@{/images/slider_pl_003en.png}" alt="slider interiors" th:if="${lang} == 'EN'">
+                </div>
+				<div class="item">
+                  <img th:src="@{/images/slider_pl_004.png}" alt="slider wnętrinteriorsza">
+                </div>
+				<div class="item">
+                  <img th:src="@{/images/slider_pl_005.png}" alt="slider exteriors" th:if="${lang} == 'PL'">
+                  <img th:src="@{/images/slider_pl_005en.png}" alt="slider exteriors"  th:if="${lang} == 'EN'">
+                </div>
+				<div class="item">
+                  <img th:src="@{/images/slider_pl_006.png}" alt="slider exteriors">
+                </div>
+				<div class="item">
+                  <img th:src="@{/images/slider_pl_007.png}" alt="slider animations" th:if="${lang} == 'PL'">
+                  <img th:src="@{/images/slider_pl_007en.png}" alt="slider animations" th:if="${lang} == 'EN'">
+                </div>
+				<div class="item">
+                  <img th:src="@{/images/slider_pl_008.png}" alt="slider animations">
+                </div>
+				<div class="item">
+                  <img th:src="@{/images/slider_pl_009.png}" alt="slider 3d models" th:if="${lang} == 'PL'">
+                  <img th:src="@{/images/slider_pl_009en.png}" alt="slider 3d models"  th:if="${lang} == 'EN'">
+                </div>
+				<div class="item">
+                  <img th:src="@{/images/slider_pl_010.png}" alt="slider 3d models">
+                </div>
+				<div class="item">
+                  <img th:src="@{/images/slider_pl_011.png}" alt="slider packshots" th:if="${lang} == 'PL'">
+                  <img th:src="@{/images/slider_pl_011en.png}" alt="slider packshots" th:if="${lang} == 'EN'">
+                </div>
+				<div class="item">
+                  <img th:src="@{/images/slider_pl_012.png}" alt="slider packshots">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="the-sticky-div" class="container"> 
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#defaultNavbar1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          </div>
+          <h2>Portfolio</h2>
+  
+        </div>
+  
+      </div>
+      <div class="row menu">
+        <div class="col-lg-12">
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="defaultNavbar1">
+            <ul class="nav navbar-nav">
+              <li class="active cat" th:if="${lang} == 'PL'"><a th:href="@{/main(lang='PL',type=0)}">Wszystkie<span class="sr-only">(current)</span></a></li>
+              <li class="active cat" th:if="${lang} == 'EN'"><a th:href="@{/main(lang='EN',type=0)}">All<span class="sr-only">(current)</span></a></li>
+              <li class="cat" th:if="${lang} == 'PL'"><a th:href="@{/main(lang='PL',type=1)}">Konkursy</a></li>
+              <li class="cat" th:if="${lang} == 'EN'"><a th:href="@{/main(lang='EN',type=1)}">Competitions</a></li>
+              <li class="cat" th:if="${lang} == 'PL'"><a th:href="@{/main(lang='PL',type=2)}">Wnętrza</a></li>
+              <li class="cat" th:if="${lang} == 'EN'"><a th:href="@{/main(lang='EN',type=2)}">Interiors</a></li>
+              <li class="cat" th:if="${lang} == 'PL'"><a th:href="@{/main(lang='PL',type=3)}">Zewnętrza</a></li>
+              <li class="cat" th:if="${lang} == 'EN'"><a th:href="@{/main(lang='EN',type=3)}">Exteriors</a></li>
+              <li class="cat" th:if="${lang} == 'PL'"><a th:href="@{/main(lang='PL',type=4)}">Animacje</a></li>
+              <li class="cat" th:if="${lang} == 'EN'"><a th:href="@{/main(lang='EN',type=4)}">Animations</a></li>
+              <li class="cat" th:if="${lang} == 'PL'"><a th:href="@{/main(lang='PL',type=5)}">Modelowanie produktów</a></li>
+              <li class="cat" th:if="${lang} == 'EN'"><a th:href="@{/main(lang='EN',type=5)}">Products Modeling</a></li>
+              <li class="cat" th:if="${lang} == 'PL'"><a th:href="@{/main(lang='PL',type=6)}">Panoramy 360°</a></li>
+              <li class="cat" th:if="${lang} == 'EN'"><a th:href="@{/main(lang='EN',type=6)}">360° Panoramas</a></li>
+              <li class="cat" th:if="${lang} == 'PL'"><a th:href="@{/main(lang='PL',type=7)}">AR apps</a></li>
+              <li class="cat" th:if="${lang} == 'EN'"><a th:href="@{/main(lang='EN',type=7)}">AR apps</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- /.navbar-collapse --> 
+      </div>
+    </div>
+    <!-- /.container-fluid --> 
+  </nav>
+   
+	  
+  <div id="portfolio" class="container">
+   <div class="row" id="parent">
+
+
+     <!--/*@thymesVar id="projects" type="java.util.List<pl.ante.portfolioanteapp.model.projection.ProjectSimpleInfoReadModel>"*/-->
+   	<div th:each="project : ${projects} " class="box-outer col-lg-3 col-md-3 col-sm-4 col-xs-6 col-xxxs-12">
+        <div class="box">
+          <img th:src="@{/images/2020_07_osiedle_mieszkaniowe_aachen_niemcy_ico.jpg}" alt="07.2020r. Osiedle mieszkaniowe, Aachen, Niemcy." />
+          <div class="more">
+            <div class="project">
+              <a href="#" class="link">
+                <div class="desc">
+                  <h3 th:text="${project.getName()}">...</h3>
+                  <h4 th:text="|${project.getYear} / ${project.getCity} [${project.getCountry}]|">...</h4>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+	  
+
+
+
+  
+    </div><!--end row-->
+  </div><!--end container-->
+  
+  <div class="footer" id="kontakt">
+    <div class="container">
+      <div class="row">
+
+        <!--PL-->
+        <div class="text-center col-lg-12" th:if="${lang} == 'PL'">
+          <div class="logo-bottom text-center">
+            <img th:src="@{/images/ante-logo.png}" alt="Ante logo">
+          </div>
+          <p>&copy; <strong>firma Ante Piotr Kozłowski</strong>,  ul. Hagera 41, 41-800 Zabrze<br>
+          tel: <strong>691 235 259</strong>   /   e-mail: <script type="text/javascript">user = 'info';site = 'ante.pl';document.write('<strong>' + user + '@' + site + '</strong>');</script>
+          </p>
+        </div>
+        <!--PL end-->
+
+        <!--EN-->
+        <div class="text-center col-lg-12" th:if="${lang} == 'EN'">
+          <div class="logo-bottom text-center">
+            <img src="images/ante-logo.png" alt="Ante logo">
+          </div>
+          <p>&copy; <strong>ANTE Piotr Kozlowski</strong>, Hagera 41, 41-800 Zabrze, Poland<br>
+            phone: <strong>0048 691 235 259</strong>   /   e-mail: <script type="text/javascript">user = 'info';site = 'ante.pl';document.write('<strong>' + user + '@' + site + '</strong>');</script>
+          </p>
+        </div>
+        <!--EN end-->
+
+      </div>
+    </div>
+  </div>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed --> 
+  <script th:src="@{/js/jquery.mobile.custom.min.js}"></script>
+  <script th:src="@{/js/bootstrap.js}"></script>
+  
+  <script type="text/javascript"th:src="@{/js/jquery.interactive_bg.js}"></script>
+  <script type="text/javascript">
+    $(".bg").interactive_bg();
+  </script>
+  
+  <!--cookies info start-->
+  <script type="text/javascript" src="http://ciasteczka.eu/cookiesEU-latest.min.js"></script>
+  
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+      jQuery.fn.cookiesEU({
+    text: 'Nasza strona internetowa używa plików cookies (tzw. ciasteczka) w celach statystycznych, reklamowych oraz funkcjonalnych. Dzięki nim możemy indywidualnie dostosować stronę do Twoich potrzeb. Każdy może zaakceptować pliki cookies albo ma możliwość wyłączenia ich w przeglądarce, dzięki czemu nie będą zbierane żadne informacje. <a href="../static/polityka-prywatnosci.html">Dowiedz się więcej na temat naszej polityki prywatności oraz sposobu wyłączenia plików cookies.</a>',
+    close: 'x',
+    test: false,
+    box_class: 'cookies-info-box-bottom',
+    animation: 'fade',
+    time: '500',
+    auto_accept: false
+  });
+  });
+  </script>
+  <!--cookies info end-->    
+  
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+  <script>
+  var $btns = $('.cat').click(function() {
+    if (this.id == 'all') {
+      $('#parent > div').removeClass('gray');
+    } else {
+      var $el = $('.' + this.id).removeClass('gray');
+      $('#parent > div').not($el).addClass('gray');
+    }
+    $btns.removeClass('active');
+    $(this).addClass('active');
+  })
+  </script>
+  <script>
+    jQuery('.carousel').carousel({
+      interval: 6000
+    })
+  </script>
+  <script>
+  // ------------------------------
+  // http://twitter.com/mattsince87
+  // ------------------------------
+  
+  function scrollNav() {
+      $('.nav li a').click(function(){  
+      //Animate
+      $('html, body').stop().animate({
+          scrollTop: $( $(this).attr('href') ).offset().top
+      }, 1000);
+      return true; //bylo false
+    });
+    $('.scrollTop a').scrollTop();
+  }
+  scrollNav();
+  </script>
+  <script>
+  var $window = $(window),
+       $stickyEl = $('#the-sticky-div'),
+       elTop = $stickyEl.offset().top;
+  
+   $window.scroll(function() {
+        $stickyEl.toggleClass('sticky', $window.scrollTop() > elTop);
+    });
+  </script>
+  
+  </body>
+</html>

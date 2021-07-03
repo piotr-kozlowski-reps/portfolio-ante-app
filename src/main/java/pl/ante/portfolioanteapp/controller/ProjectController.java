@@ -2,7 +2,6 @@ package pl.ante.portfolioanteapp.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.ante.portfolioanteapp.logic.ProjectService;
@@ -17,22 +16,25 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequestMapping("/projects")
 class ProjectController {
 
+    //---fields
     private static Logger logger = LoggerFactory.getLogger(ProjectController.class);
     private final ProjectRepository repository;
     private final ProjectService projectService;
 
 
-    //---
+    //---constr
     ProjectController(final ProjectRepository repository, final ProjectService projectService) {
         this.repository = repository;
         this.projectService = projectService;
     }
 
 
-    //---POSTs
-    @PostMapping("/projects")
+
+    //---POST
+    @PostMapping
     ResponseEntity<Project> createProject(@RequestBody @Valid ProjectWriteModel projectWriteModel) {
         Project result = projectService.createProjectFromWriteModel(projectWriteModel);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
@@ -40,13 +42,15 @@ class ProjectController {
 
 
 
-    //---GETs
-    @GetMapping(value = "/projects", params = {"!sort", "!page", "!size"})
-    ResponseEntity<List<ProjectSimpleInfoReadModel>> readAllProjects(@Param("lang") String lang, @Param("type") Integer typeId) {
+    //---GET
+    @GetMapping(params = {"!sort", "!page", "!size"})
+    ResponseEntity<List<ProjectSimpleInfoReadModel>> readAllProjects(
+            @RequestParam(name = "lang",defaultValue = "PL") String lang,
+            @RequestParam(name = "type", required = false) Integer typeId) {
         return ResponseEntity.ok(projectService.createSortedListOfProjectsByType(lang, typeId));
     }
 
-    @GetMapping("/projects/{id}")
+    @GetMapping("/{id}")
     ResponseEntity<?> readById(@PathVariable int id) {
         if (repository.findById(id).isPresent()) {
             Project project = repository.findById(id).get();
@@ -56,9 +60,11 @@ class ProjectController {
         }
     }
 
-    //---PUTs
+
+
+    //---PUT
     //TODO: tests
-    @PutMapping("/projects/{id}")
+    @PutMapping("/{id}")
     ResponseEntity<?> updateProject(@PathVariable int id, @RequestBody @Valid ProjectWriteModel projectWriteModel) {
         if (!repository.existsById(id)) {
             return ResponseEntity.notFound().build();
@@ -75,7 +81,7 @@ class ProjectController {
     //TODO: tests
     //---DELETEs
     @Transactional
-    @DeleteMapping("/projects/{id}")
+    @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteProject(@PathVariable int id) {
 
         if (repository.findById(id).isPresent()) {
@@ -89,6 +95,19 @@ class ProjectController {
 
 
     }
+
+
+
+    //---Error handling
+    @ExceptionHandler(IllegalArgumentException.class)
+    ResponseEntity<?> handleIllegalArgument(IllegalArgumentException e) {
+//        return ResponseEntity.notFound().build();
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+
+
+
 
 //    @GetMapping(value = "/projects")
 //    ResponseEntity<List<Project>> readAllTasks(Pageable page){
