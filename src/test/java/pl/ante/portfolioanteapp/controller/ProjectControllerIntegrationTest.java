@@ -228,8 +228,8 @@ class ProjectControllerIntegrationTest {
                 .collect(Collectors.toList())
         );
         result.setImages(Set.of(
-                new ProjectImage("path1", true, 2),
-                new ProjectImage("path2", false, 1)
+                new ProjectImage("path1", true, 2, "altPL", "altEN"),
+                new ProjectImage("path2", false, 1, "altPL", "altEN")
         ));
 
         return result;

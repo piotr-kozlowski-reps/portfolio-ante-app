@@ -13,6 +13,9 @@ public class ProjectImage {
     private Integer id;
 
     private String path;
+    private String imageAltPl;
+    private String imageAltEn;
+
     private Boolean big;
     private Integer orderNumber;
 
@@ -28,10 +31,12 @@ public class ProjectImage {
     //---constr
     public ProjectImage() {
     }
-    public ProjectImage(final String path, final Boolean big, final Integer order) {
+    public ProjectImage(final String path, final Boolean big, final Integer order, final String imageAltPl, final String imageAltEn) {
         this.path = path;
         this.big = big;
         this.orderNumber = order;
+        this.imageAltPl = imageAltPl;
+        this.imageAltEn = imageAltEn;
     }
 
 
@@ -47,6 +52,24 @@ public class ProjectImage {
     }
     void setPath(final String path) {
         this.path = path;
+    }
+    public String getImageAltPl() {
+        return imageAltPl;
+    }
+    public void setImageAltPl(final String imageAltPl) {
+        this.imageAltPl = imageAltPl;
+    }
+    public String getImageAltEn() {
+        return imageAltEn;
+    }
+    public void setImageAltEn(final String imageAltEn) {
+        this.imageAltEn = imageAltEn;
+    }
+    public Integer getOrderNumber() {
+        return orderNumber;
+    }
+    public void setOrderNumber(final Integer orderNumber) {
+        this.orderNumber = orderNumber;
     }
     public Boolean getBig() {
         return big;

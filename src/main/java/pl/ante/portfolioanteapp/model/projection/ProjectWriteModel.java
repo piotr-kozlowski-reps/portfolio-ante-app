@@ -43,6 +43,10 @@ public class ProjectWriteModel {
 
     private String icoPath;
 
+    private String icoAltPl;
+
+    private String icoAltEn;
+
     private Set<Integer> types;
 
     private Set<ProjectImage> images;
@@ -110,6 +114,18 @@ public class ProjectWriteModel {
     }
     public void setIcoPath(final String icoPath) {
         this.icoPath = icoPath;
+    }
+    public String getIcoAltPl() {
+        return icoAltPl;
+    }
+    public void setIcoAltPl(final String icoAltPl) {
+        this.icoAltPl = icoAltPl;
+    }
+    public String getIcoAltEn() {
+        return icoAltEn;
+    }
+    public void setIcoAltEn(final String icoAltEn) {
+        this.icoAltEn = icoAltEn;
     }
     public Set<Integer> getTypes() {
         return types;

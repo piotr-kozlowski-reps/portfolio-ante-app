@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ante</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Bootstrap -->
+    <link href="../favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-custom.css" rel="stylesheet">
+    <link href="../css/cookiesEU.css" rel="stylesheet">
+    <link href="../css/form.css" rel="stylesheet">
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-9180660-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="125">
+
+<nav class="navbar">
+    <div class="container">
+        <div class="row menu-top">
+            <div class="col-xs-2">
+                <div class="lang">
+<!--                    <a th:href="@{/main(lang='EN',type=${type})}" th:if="${lang} == 'PL'">EN</a>-->
+<!--                    <a th:href="@{/main(lang='PL',type=${type})}" th:if="${lang} == 'EN'">PL</a>-->
+                </div>
+            </div>
+            <div class="col-xs-10">
+                <ul class="nav top-nav">
+                    <li><a href="../main?lang=PL,type=0">BACK TO PROJECTS LIST</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="logo-top text-center" style="padding-bottom: 130px">
+                <img src="../images/ante-logo.png" alt="Ante logo">
+            </div>
+        </div>
+    </div>
+
+    <div id="the-sticky-div" class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#defaultNavbar1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                </div>
+                <h2>EDIT PROJECT FORM</h2>
+            </div>
+
+        </div>
+        <div class="row menu">
+            <div class="col-lg-12">
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="defaultNavbar1">
+                    <ul class="nav navbar-nav">
+<!--                        <li class="active cat"><a th:href="@{/admin(type=0)}">ALL<span class="sr-only">(current)</span></a></li>-->
+<!--                        <li class="cat"><a th:href="@{/admin(type=1)}">Competitions</a></li>-->
+<!--                        <li class="cat"><a th:href="@{/admin(type=2)}">Interiors</a></li>-->
+<!--                        <li class="cat"><a th:href="@{/admin(type=3)}">Exteriors</a></li>-->
+<!--                        <li class="cat"><a th:href="@{/admin(type=4)}">Animacje</a></li>-->
+<!--                        <li class="cat"><a th:href="@{/admin(type=5)}">Products Modeling</a></li>-->
+<!--                        <li class="cat"><a th:href="@{/admin(type=6)}">360° Panoramas</a></li>-->
+<!--                        <li class="cat"><a th:href="@{/admin(type=7)}">AR apps</a></li>-->
+                    </ul>
+                </div>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+
+<div id="portfolio" class="container">
+    <div class="row-form" class="col-lg-12">
+
+        <!--FORM START-->
+        <form action="#">
+
+            <div class="project-details">
+                <div class="input-box">
+                    <span class="details">Name in Polish</span>
+                    <input type="text" placeholder="Name in Polish" required>
+                </div>
+            </div>
+
+            <div class="project-details">
+                <div class="input-box">
+                    <span class="details">Name in English</span>
+                    <input type="text" placeholder="Name in English" required>
+                </div>
+            </div>
+
+            <div class="project-details">
+                <div class="input-box">
+                    <span class="details">Year</span>
+                    <input type="text" placeholder="Year" required>
+                </div>
+            </div>
+
+            <div class="project-details">
+                <div class="input-box">
+                    <span class="details">Month</span>
+                    <input type="text" placeholder="Month" required>
+                </div>
+            </div>
+
+            <div class="project-details">
+                <div class="input-box">
+                    <span class="details">City in Polish</span>
+                    <input type="text" placeholder="City in Polish" required>
+                </div>
+            </div>
+
+            <div class="project-details">
+                <div class="input-box">
+                    <span class="details">City in English</span>
+                    <input type="text" placeholder="City in English" required>
+                </div>
+            </div>
+
+            <div class="project-details">
+                <div class="input-box">
+                    <span class="details">Country in Polish</span>
+                    <input type="text" placeholder="Country in Polish" required>
+                </div>
+            </div>
+
+            <div class="project-details">
+                <div class="input-box">
+                    <span class="details">Country in English</span>
+                    <input type="text" placeholder="Country in English" required>
+                </div>
+            </div>
+
+            <div class="project-details">
+                <div class="input-box">
+                    <span class="details">Client</span>
+                    <input type="text" placeholder="Client" required>
+                </div>
+            </div>
+
+            <div class="project-details">
+                    <span class="details-types">Category types</span>
+
+            </div>
+
+        
+            <!-- types -->
+            <div class="project-types">
+                <input class="types-class" type="checkbox" id="competition" />
+                <label for="competition">COMPETITION</label>
+
+                <input type="checkbox" id="interior" />
+                <label for="interior">INTERIOR</label>
+
+                <input type="checkbox" id="exterior" />
+                <label for="exterior">EXTERIOR</label>
+
+                <input type="checkbox" id="animation" />
+                <label for="animation">ANIMATION</label>
+
+                <input type="checkbox" id="productmodel" />
+                <label for="productmodel">PRODUCT_MODEL</label>
+
+                <input type="checkbox" id="panorama" />
+                <label for="panorama">PANORAMA</label>
+
+                <input type="checkbox" id="arrapp" />
+                <label for="arrapp">AR_APP</label>
+
+            </div>
+
+
+            <div class="button">
+                <input type="submit" value="">
+            </div>
+
+
+        
+
+
+        
+
+        
+            <!-- private String icoPath;
+        
+            private String icoAltPl;
+        
+            private String icoAltEn;
+        
+            private Set<ProjectImage> images; -->
+
+
+
+
+
+
+
+
+
+
+        </form>
+        <!--FORM END-->
+
+
+    </div><!--end row-->
+</div><!--end container-->
+
+<div class="footer" id="kontakt">
+    <div class="container">
+        <div class="row">
+
+            <!--PL-->
+            <div class="text-center col-lg-12">
+                <div class="logo-bottom text-center">
+                    <img src="../images/ante-logo.png" alt="Ante logo">
+                </div>
+                <p>&copy; <strong>firma Ante Piotr Kozłowski</strong>,  ul. Hagera 41, 41-800 Zabrze<br>
+                    tel: <strong>691 235 259</strong>   /   e-mail: <script type="text/javascript">user = 'info';site = 'ante.pl';document.write('<strong>' + user + '@' + site + '</strong>');</script>
+                </p>
+            </div>
+            <!--PL end-->
+
+        </div>
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../js/jquery.mobile.custom.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+
+<script type="text/javascript" src="../js/jquery.interactive_bg.js"></script>
+<script type="text/javascript">
+    $(".bg").interactive_bg();
+</script>
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script>
+    var $btns = $('.cat').click(function() {
+        if (this.id == 'all') {
+            $('#parent > div').removeClass('gray');
+        } else {
+            var $el = $('.' + this.id).removeClass('gray');
+            $('#parent > div').not($el).addClass('gray');
+        }
+        $btns.removeClass('active');
+        $(this).addClass('active');
+    })
+</script>
+<script>
+    jQuery('.carousel').carousel({
+        interval: 6000
+    })
+</script>
+<script>
+    // ------------------------------
+    // http://twitter.com/mattsince87
+    // ------------------------------
+
+    function scrollNav() {
+        $('.nav li a').click(function(){
+            //Animate
+            $('html, body').stop().animate({
+                scrollTop: $( $(this).attr('href') ).offset().top
+            }, 1000);
+            return true; //bylo false
+        });
+        $('.scrollTop a').scrollTop();
+    }
+    scrollNav();
+</script>
+<script>
+    var $window = $(window),
+        $stickyEl = $('#the-sticky-div'),
+        elTop = $stickyEl.offset().top;
+
+    $window.scroll(function() {
+        $stickyEl.toggleClass('sticky', $window.scrollTop() > elTop);
+    });
+</script>
+
+</body>
+</html>

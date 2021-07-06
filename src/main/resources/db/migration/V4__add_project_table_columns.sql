@@ -6,3 +6,5 @@ ALTER TABLE projects ADD COLUMN country_pl VARCHAR(100);
 ALTER TABLE projects ADD COLUMN country_en VARCHAR(100);
 ALTER TABLE projects ADD COLUMN client VARCHAR(100);
 ALTER TABLE projects ADD COLUMN ico_path VARCHAR(250);
+ALTER TABLE projects ADD COLUMN ico_alt_pl VARCHAR(255);
+ALTER TABLE projects ADD COLUMN ico_alt_en VARCHAR(255);

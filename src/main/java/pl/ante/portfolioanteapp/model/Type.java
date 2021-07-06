@@ -18,9 +18,18 @@ public class Type {
     private String type;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "types")
+    @ManyToMany(
+            fetch = FetchType.EAGER,
+            cascade = {
+                CascadeType.MERGE,
+                CascadeType.DETACH,
+                CascadeType.PERSIST,
+                CascadeType.REFRESH},
+                targetEntity = Project.class)
+    @JoinTable(name = "project_type",
+            joinColumns = @JoinColumn(name = "id_type"),
+            inverseJoinColumns = @JoinColumn(name = "id_project"))
     private List<Project> projects = new ArrayList<>();
-
 
 
 

@@ -1,0 +1,35 @@
+/* LIST #2*/
+/*#list2 {*/
+/*    width: 320px;*/
+/*}*/
+
+#list2 ol ul {
+    font-style: italic;
+    font-family: "Lato", Georgia, serif;
+    font-size: 18px;
+    color: #4e4e4e;
+    vertical-align: center;
+}
+
+#list2 ol li { }
+#list2 ol li p {
+    padding: 8px;
+    font-style: normal;
+    font-size: 13px;
+    color: #4e4e4e;
+    border-left: 1px solid #999;
+}
+
+#list2 ol li p em {
+    display: block;
+    font-style: normal;
+    font-weight: bold;
+
+}
+
+.row_list_projects {
+    margin-left:-11px;
+    margin-right:-11px;
+    padding-top: 0;
+    padding-bottom: 0;
+}

@@ -1,0 +1,60 @@
+body{
+    justify-content: center;
+    align-items: center;
+}
+
+.container .row-form{
+    padding: 25px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: "Lato", Georgia, serif;
+}
+
+.container form .project-details{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+form .project-details .input-box{
+    width: calc(100% / 0.1 - 50px);
+    justify-content: space-between;
+    margin: 20px 0 12px 0;
+    margin-bottom: 15px;
+}
+
+.project-details .input-box input{
+    height: 45px;
+    width: 100%;
+    outline: none;
+    border-radius: 2px;
+    border: 1px solid #999;
+    padding-left: 15px;
+    font-size: medium;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.project-details .input-box .details{
+    font-weight: 500;
+    margin-bottom: 800px;
+}
+
+.project-details .input-box input:focus,
+.project-details .input-box input:valid{
+    border: 2px solid rgb(61, 61, 61);
+}
+
+.project-types{
+
+}
+
+label{
+    background: rosybrown;
+    font-size: 12px;
+}
+
+
+form .project-details .details-types{
+    margin-top: 30px;
+    margin-bottom: 3px;
+}

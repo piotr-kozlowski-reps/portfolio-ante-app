@@ -1,5 +1,6 @@
 package pl.ante.portfolioanteapp.logic;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -11,10 +12,7 @@ import pl.ante.portfolioanteapp.model.projection.ProjectWriteModel;
 
 import java.time.Month;
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,12 +22,14 @@ public class ProjectService {
     Logger logger = LoggerFactory.getLogger(ProjectService.class);
     private ProjectRepository projectRepository;
     private TypeRepository typeRepository;
+    private ProjectImageRepository projectImageRepository;
 
 
     //---constr
-    ProjectService(final ProjectRepository projectRepository, final TypeRepository typeRepository) {
+    ProjectService(final ProjectRepository projectRepository, final TypeRepository typeRepository, final ProjectImageRepository projectImageRepository) {
         this.projectRepository = projectRepository;
         this.typeRepository = typeRepository;
+        this.projectImageRepository = projectImageRepository;
     }
 
 
@@ -49,6 +49,8 @@ public class ProjectService {
         result.setCountryEn(projectWriteModel.getCountryEn());
         result.setClient(projectWriteModel.getClient());
         result.setIcoPath(projectWriteModel.getIcoPath());
+        result.setIcoAltPl(projectWriteModel.getIcoAltPl());
+        result.setIcoAltEn(projectWriteModel.getIcoAltEn());
         result.setTypes(applyTypes(projectWriteModel));
         result.setImages(applyImages(projectWriteModel));
 
@@ -76,7 +78,7 @@ public class ProjectService {
         projectWriteModel.getTypes().stream()
                 .forEach(typeId -> {
                     if(typeRepository.findById(typeId).isEmpty()) {
-                        logger.error("There's no such Type when project creation");
+                        logger.error("There's no such Type when project creation, or Type is eq to 0 -> means show whole list despite of Types");
                         throw new IllegalArgumentException("There's no such Project type");
                     }
                     else types.add(typeRepository.findById(typeId).get());
@@ -86,9 +88,10 @@ public class ProjectService {
     }
     private Set<ProjectImage> applyImages(final ProjectWriteModel projectWriteModel) {
         return projectWriteModel.getImages().stream()
-                .map(imageInfo -> new ProjectImage(imageInfo.getPath(), imageInfo.getBig(), imageInfo.getOrder()))
+                .map(imageInfo -> new ProjectImage(imageInfo.getPath(), imageInfo.getBig(), imageInfo.getOrder(), imageInfo.getImageAltPl(), imageInfo.getImageAltEn()))
                 .collect(Collectors.toSet());
     }
+
 
     //---GET
     public List<ProjectSimpleInfoReadModel> createSortedListOfProjectsByType(final String lang, final Integer typeAsInt) {
@@ -97,35 +100,6 @@ public class ProjectService {
         if (isTypeNotValid(typeAsInt)) {
             return createListOfProjectsReadModelsInSpecifiedLangAndOrder(projectRepository.findAll(), lang);
         }
-
-
-
-
-
-
-        //-----------------------------------------
-//        Type foundType = typeRepository.findById(typeAsInt).get();
-//
-//        List<Project> projectListByCategory = new ArrayList<>();
-//
-//        List<Project> allProjectsList = projectRepository.findAll();
-//
-//        for (Project project : allProjectsList) {
-//
-//            List<Type> typesOfProject = project.getTypes();
-//
-//            for (Type type : typesOfProject) {
-//                if (type.equals(foundType)) {
-//                    projectListByCategory.add(project);
-//                }
-//            }
-//
-//        }
-//
-//        return createListOfProjectsReadModelsInSpecifiedLangAndOrder(projectListByCategory, lang);
-        //-----------------------------------------
-
-
 
         //good category
         Type foundType = typeRepository.findById(typeAsInt).get();
@@ -142,7 +116,50 @@ public class ProjectService {
         return createListOfProjectsReadModelsInSpecifiedLangAndOrder(projectListByType, lang);
 
     }
+    public Project getProjectById(final int id) {
+        if (projectRepository.findById(id).isEmpty()) {
+            throw new IllegalArgumentException("Project with id " + id + " is not available");
+        }
+        return projectRepository.findById(id).get();
+    }
 
+    //---DELETE
+    public void deleteProjectById(final int id) {
+
+        Optional<Project> project = projectRepository.findById(id);
+
+        if (project.isPresent()) {
+
+            Set<ProjectImage> projectImages = project.get().getImages();
+
+            for (Iterator<ProjectImage> iterator = projectImages.iterator(); iterator.hasNext(); ) {
+                ProjectImage image = iterator.next();
+                projectImages.remove(image);
+                projectImageRepository.delete(image);
+            }
+
+            List<Type> projectTypes = project.get().getTypes();
+            for (Iterator<Type> iterator = projectTypes.iterator(); iterator.hasNext(); ) {
+                Type type = iterator.next();
+                projectTypes.remove(type);
+            }
+
+            projectRepository.delete(project.get());
+
+
+
+//            project.get().getImages().stream()
+//                    .forEach(image -> projectImageRepository.delete(image));
+//
+//            projectRepository.delete(project.get());
+//            return true;
+//
+//
+//        }
+//
+//        return false;
+        }
+    }
 
 
 
@@ -182,4 +199,7 @@ public class ProjectService {
     private boolean isTypeNotValid(final Integer category) {
         return category == null || category < 1 || category > typeRepository.findAll().size();
     }
+
+
+
 }

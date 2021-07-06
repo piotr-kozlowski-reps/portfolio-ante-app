@@ -15,10 +15,6 @@ interface SqlProjectRepository extends ProjectRepository, JpaRepository<Project,
 //    @Query(nativeQuery = true, value = "SELECT COUNT(*) > 0 FROM projects WHERE id=:id")
 //    boolean existsById(@Param("id") Integer id);
 
-
-    @Override
-    void deleteById(Integer integer);
-
     @Override
 //    @Query("SELECT")
     Optional<Project> findById(Integer id);

@@ -20,6 +20,7 @@ public interface ProjectRepository {
 
     //DELETE
     void deleteById(Integer integer);
+    void delete(Project project);
 
 
 

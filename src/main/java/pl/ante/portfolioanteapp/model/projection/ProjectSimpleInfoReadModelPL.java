@@ -8,8 +8,11 @@ public class ProjectSimpleInfoReadModelPL extends ProjectSimpleInfoReadModel{
         this.setId(source.getId());
         this.setName(source.getNamePl());
         this.setYear(source.getYear().toString());
+        this.setMonth(source.getMonth().toString());
         this.setCity(source.getCityPl());
         this.setCountry(source.getCountryPl());
+        this.setIcoPath(source.getIcoPath());
+        this.setIcoAlt(source.getIcoAltPl());
     }
 
 }

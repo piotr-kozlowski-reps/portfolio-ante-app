@@ -41,7 +41,7 @@ class ProjectServiceTest {
         //and
         ProjectWriteModel projectWriteModel = getProjectWriteModelWithCorrectData();
         //system under test
-        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository);
+        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository, null);
 
         //when
         Project result = toTest.createProjectFromWriteModel(projectWriteModel);
@@ -83,7 +83,7 @@ class ProjectServiceTest {
         //and
         ProjectWriteModel projectWriteModel = getProjectWriteModelWithCorrectData();
         //system under test
-        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository);
+        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository, null);
 
         //when
         Project result = toTest.createProjectFromWriteModel(projectWriteModel);
@@ -107,9 +107,9 @@ class ProjectServiceTest {
         InMemoryTypeRepository inMemoryTypeRepository = inMemoryTypeRepository();
         //and
         ProjectWriteModel projectWriteModel = getProjectWriteModelWithCorrectData();
-        when(projectWriteModel.getTypes()).thenReturn(Set.of(-1, 13));
+        when(projectWriteModel.getTypes()).thenReturn(Set.of(-1, 13, 0));
         //system under test
-        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository);
+        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository, null);
 
         //when
         var exception = catchThrowable(() -> toTest.createProjectFromWriteModel(projectWriteModel));
@@ -117,7 +117,7 @@ class ProjectServiceTest {
         //then
         assertThat(exception)
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("no such Type");
+                .hasMessageContaining("no such Project type");
     }
 
     @Test
@@ -127,7 +127,7 @@ class ProjectServiceTest {
         //given
         InMemoryProjectRepository inMemoryProjectRepository = inMemoryProjectRepositoryFilledWithProjects();
         //system under test
-        var toTest = new ProjectService(inMemoryProjectRepository, null);
+        var toTest = new ProjectService(inMemoryProjectRepository, null, null);
 
         //when
         List<ProjectSimpleInfoReadModel> listOfAllProjects = toTest.createSortedListOfProjectsByType(null, null);
@@ -152,7 +152,7 @@ class ProjectServiceTest {
         //and
         String lang = "DE";
         //system under test
-        var toTest = new ProjectService(inMemoryProjectRepository, null);
+        var toTest = new ProjectService(inMemoryProjectRepository, null, null);
 
         //when
         List<ProjectSimpleInfoReadModel> listOfAllProjects = toTest.createSortedListOfProjectsByType(lang, null);
@@ -177,7 +177,7 @@ class ProjectServiceTest {
         //and
         String lang = "DE";
         //system under test
-        var toTest = new ProjectService(inMemoryProjectRepository, null);
+        var toTest = new ProjectService(inMemoryProjectRepository, null, null);
 
         //when
         List<ProjectSimpleInfoReadModel> listOfAllProjects = toTest.createSortedListOfProjectsByType(lang, null);
@@ -207,7 +207,7 @@ class ProjectServiceTest {
         //and
         InMemoryTypeRepository inMemoryTypeRepository = inMemoryTypeRepository();
         //system under test
-        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository);
+        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository, null);
 
         //when
         List<ProjectSimpleInfoReadModel> listOfAllProjects = toTest.createSortedListOfProjectsByType(lang, category);
@@ -232,7 +232,7 @@ class ProjectServiceTest {
         //and
         String lang = "PL";
         //system under test
-        var toTest = new ProjectService(inMemoryProjectRepository, null);
+        var toTest = new ProjectService(inMemoryProjectRepository, null, null);
 
         //when
         List<ProjectSimpleInfoReadModel> listOfAllProjects = toTest.createSortedListOfProjectsByType(lang, null);
@@ -257,7 +257,7 @@ class ProjectServiceTest {
         //and
         String lang = "EN";
         //system under test
-        var toTest = new ProjectService(inMemoryProjectRepository, null);
+        var toTest = new ProjectService(inMemoryProjectRepository, null, null);
 
         //when
         List<ProjectSimpleInfoReadModel> listOfAllProjects = toTest.createSortedListOfProjectsByType(lang, null);
@@ -286,7 +286,7 @@ class ProjectServiceTest {
         //and
         int typeId = 1;
         //system under test
-        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository);
+        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository, null);
 
         //when
         List<ProjectSimpleInfoReadModel> listOfCategorisedProjects = toTest.createSortedListOfProjectsByType(lang, typeId);
@@ -312,7 +312,7 @@ class ProjectServiceTest {
         //and
         String lang = "PL";
         //system under test
-        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository);
+        var toTest = new ProjectService(inMemoryProjectRepository, inMemoryTypeRepository, null);
 
         //when
         List<ProjectSimpleInfoReadModel> listOfCategorisedProjects = toTest.createSortedListOfProjectsByType(lang, typeId);
@@ -406,6 +406,11 @@ class ProjectServiceTest {
         }
 
         @Override
+        public void delete(final Project project) {
+            throw new NotImplementedException();
+        }
+
+        @Override
         public boolean existsById(final Integer id) {
             return map.values().stream()
                     .anyMatch(project -> project.getId() == id);
@@ -474,8 +479,8 @@ class ProjectServiceTest {
                 .collect(Collectors.toList())
         );
         result.setImages(Set.of(
-                new ProjectImage("path1", true, 2),
-                new ProjectImage("path2", false, 1)
+                new ProjectImage("path1", true, 2, "altPL", "altEN"),
+                new ProjectImage("path2", false, 1, "altPL", "altEN")
         ));
 
         return result;
@@ -545,8 +550,8 @@ class ProjectServiceTest {
     private ProjectWriteModel getProjectWriteModelWithCorrectData() {
         Set<Integer> goodValuesSet = Set.of(1, 3);
         Set<ProjectImage> imagesSet = Set.of(
-                new ProjectImage("path1", true, 2),
-                new ProjectImage("path2", false, 1)
+                new ProjectImage("path1", true, 2, "altPL", "altEN"),
+                new ProjectImage("path2", false, 1, "altPL", "altEN")
         );
         ProjectWriteModel projectWriteModel = createProjectWriteModel(goodValuesSet, imagesSet);
         return projectWriteModel;

@@ -49,10 +49,17 @@ public class Project {
     private String client;
 
     private String icoPath;
+    private String icoAltPl;
+    private String icoAltEn;
 
     @ManyToMany(
             fetch = FetchType.EAGER,
-            cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.DETACH,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH},
+                    targetEntity = Type.class)
     @JoinTable(
             name = "project_type",
             joinColumns = @JoinColumn(name = "id_project"),
@@ -65,9 +72,10 @@ public class Project {
 //            orphanRemoval = true)
 //    private Set<ProjectImage> images = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "project_id")
     private Set<ProjectImage> images = new HashSet<>();
+
 
 
 
@@ -148,6 +156,18 @@ public class Project {
     }
     public void setIcoPath(final String icoPath) {
         this.icoPath = icoPath;
+    }
+    public String getIcoAltPl() {
+        return icoAltPl;
+    }
+    public void setIcoAltPl(final String icoAltPl) {
+        this.icoAltPl = icoAltPl;
+    }
+    public String getIcoAltEn() {
+        return icoAltEn;
+    }
+    public void setIcoAltEn(final String icoAltEn) {
+        this.icoAltEn = icoAltEn;
     }
     public List<Type> getTypes() {
         return types;

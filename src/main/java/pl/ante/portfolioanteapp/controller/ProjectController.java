@@ -85,7 +85,8 @@ class ProjectController {
     ResponseEntity<Void> deleteProject(@PathVariable int id) {
 
         if (repository.findById(id).isPresent()) {
-            repository.deleteById(id);
+//            repository.deleteById(id);
+            projectService.deleteProjectById(id);
             logger.info("Project with id: " + id + " has been deleted");
             return ResponseEntity.noContent().build();
         } else {
@@ -101,7 +102,6 @@ class ProjectController {
     //---Error handling
     @ExceptionHandler(IllegalArgumentException.class)
     ResponseEntity<?> handleIllegalArgument(IllegalArgumentException e) {
-//        return ResponseEntity.notFound().build();
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
