@@ -17,19 +17,19 @@ public class Type {
     private Integer id;
     private String type;
 
-    @JsonIgnore
-    @ManyToMany(
-            fetch = FetchType.EAGER,
-            cascade = {
-                CascadeType.MERGE,
-                CascadeType.DETACH,
-                CascadeType.PERSIST,
-                CascadeType.REFRESH},
-                targetEntity = Project.class)
-    @JoinTable(name = "project_type",
-            joinColumns = @JoinColumn(name = "id_type"),
-            inverseJoinColumns = @JoinColumn(name = "id_project"))
-    private List<Project> projects = new ArrayList<>();
+//    @JsonIgnore
+//    @ManyToMany(
+//            fetch = FetchType.EAGER,
+//            cascade = {
+//                CascadeType.MERGE,
+//                CascadeType.DETACH,
+//                CascadeType.PERSIST,
+//                CascadeType.REFRESH},
+//                targetEntity = Project.class)
+//    @JoinTable(name = "project_type",
+//            joinColumns = @JoinColumn(name = "id_type"),
+//            inverseJoinColumns = @JoinColumn(name = "id_project"))
+//    private List<Project> projects = new ArrayList<>();
 
 
 
@@ -54,20 +54,19 @@ public class Type {
     void setType(final String type) {
         this.type = type;
     }
-    public List<Project> getProjects() {
-        return projects;
-    }
-    void setProjects(List<Project> projects) {
-        this.projects = projects;
-    }
+//    public List<Project> getProjects() {
+//        return projects;
+//    }
+//    void setProjects(List<Project> projects) {
+//        this.projects = projects;
+//    }
 
 
 
     //---methods
-    public void addProject(Project project) {
-        projects.add(project);
-    }
-
+//    public void addProject(Project project) {
+//        projects.add(project);
+//    }
 
     @Override
     public boolean equals(final Object o) {
@@ -80,5 +79,10 @@ public class Type {
     @Override
     public int hashCode() {
         return Objects.hash(id, type);
+    }
+
+    @Override
+    public String toString() {
+        return this.type;
     }
 }

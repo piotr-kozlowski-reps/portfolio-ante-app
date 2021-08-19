@@ -11,7 +11,6 @@
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <link th:href="@{/css/bootstrap-custom.css}" rel="stylesheet">
     <link th:href="@{/css/cookiesEU.css}" rel="stylesheet">
-    <link th:href="@{/css/admin.css}" rel="stylesheet">
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -49,6 +48,8 @@
 
     <div id="the-sticky-div" class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
+
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="navbar-header">
@@ -77,6 +78,9 @@
             </div>
             <!-- /.navbar-collapse -->
         </div>
+
+
+
     </div>
     <!-- /.container-fluid -->
 </nav>
@@ -86,65 +90,41 @@
     <div class="row" id="parent">
 
 
-        <div class="row" style="margin-bottom: 32px; margin-top: 32px">
-            <div class="raw box-outer col-lg-9 col-md-9 col-sm-9 col-xs-12 col-xxxs-12" style="margin-bottom: 12px">
-            </div>
+        <div class="row create-project-button">
+            <div class="raw box-outer col-lg-9 col-md-9 col-sm-9 col-xs-12 col-xxxs-12" style="margin-bottom: 12px"></div>
 
             <div class="lang" >
-                <a th:href="@{/admin/create}" style="border: 1px black; border-style: solid; border-width: 1px; background: #e9e9e9">CREATE NEW PROJECT</a>
+                <a th:href="@{/admin/create}" class="btn-portfolio">CREATE NEW PROJECT</a>
             </div>
         </div>
+
 
 
         <!--/*@thymesVar id="projects" type="java.util.List<pl.ante.portfolioanteapp.model.projection.ProjectSimpleInfoReadModel>"*/-->
-        <div class="row" th:each="project : ${projects}">
-            <div id="list2" class="raw box-outer col-lg-9 col-md-9 col-sm-9 col-xs-12 col-xxxs-12" style="margin-bottom: 6px">
+        <div class="row">
                 <ol>
-                    <li><p><em th:text="${project.getName()}">...</em>
-                        <span th:text="|id: ${project.getId()}&nbsp;&nbsp;&nbsp;&nbsp;${project.getYear()}-${project.getMonth()}&nbsp;&nbsp;&nbsp;${project.getCity()} &#91;${project.getCountry()}&#93;|">...</span>
-                    </p></li>
+
+                    <!-- li - every project list - START-->
+                    <li  th:each="project : ${projects}">
+                        <div class="project-text">
+                            <h3 th:text="${project.getName()}">Project Name</h3>
+                            <p th:text="|id: ${project.getId()}&nbsp;&nbsp;&nbsp;&nbsp;${project.getYear()}-${project.getMonth()}&nbsp;&nbsp;&nbsp;${project.getCity()} &#91;${project.getCountry()}&#93;|">project info</p>
+                        </div>
+
+                        <div class="lang buttons-edit-delete">
+                            <a href="#" th:href="@{/admin/edit/__${project.getId()}__}" class="btn-portfolio">EDIT</a>
+                            <a href="#"  th:href="@{/admin/delete/__${project.getId()}__}" class="btn-portfolio btn-delete">DELETE</a>
+                        </div>
+                    </li>
+                    <!-- li - every project list - END-->
+
                 </ol>
-            </div>
-
-            <div class="lang" style="border-right: 1px solid #999;">
-                <a th:href="@{/admin/edit/__${project.getId()}__}" style="background: #e9e9e9">EDIT</a>
-                <a th:href="@{/admin/delete/__${project.getId()}__}" style="background: #e9e9e9">DELETE</a>
-            </div>
         </div>
-
-
-
-
-
-<!--        <ol th:each="project : ${projects}">-->
-<!--            <li th:text="|${project.getId()} ${project.getName()}|"></li>-->
-<!--        </ol>-->
-
-
-
-<!--        <div th:each="project : ${projects} " class="box-outer col-lg-3 col-md-3 col-sm-4 col-xs-6 col-xxxs-12">-->
-<!--            <div class="box">-->
-<!--                <img th:src="@{/images/2020_07_osiedle_mieszkaniowe_aachen_niemcy_ico.jpg}" th:alt="${project.getIcoAlt()}" />-->
-<!--                <div class="more">-->
-<!--                    <div class="project">-->
-<!--                        <a href="#" class="link">-->
-<!--                            <div class="desc">-->
-<!--                                <h3 th:text="${project.getName()}">...</h3>-->
-<!--                                <h4 th:text="|${project.getYear} / ${project.getCity} [${project.getCountry}]|">...</h4>-->
-<!--                            </div>-->
-<!--                        </a>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-
-
-
-
 
     </div><!--end row-->
 </div><!--end container-->
+
+
 
 <div class="footer" id="kontakt">
     <div class="container">

@@ -54,17 +54,33 @@ public class Project {
 
     @ManyToMany(
             fetch = FetchType.EAGER,
-            cascade = {
-                    CascadeType.MERGE,
-                    CascadeType.DETACH,
-                    CascadeType.PERSIST,
-                    CascadeType.REFRESH},
-                    targetEntity = Type.class)
+            cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "project_type",
             joinColumns = @JoinColumn(name = "id_project"),
             inverseJoinColumns = @JoinColumn(name = "id_type"))
     private List<Type> types = new ArrayList<>();
+
+
+
+    //last one
+//    @ManyToMany(
+//            fetch = FetchType.EAGER,
+//            cascade = {
+//                    CascadeType.MERGE,
+//                    CascadeType.DETACH,
+//                    CascadeType.PERSIST,
+//                    CascadeType.REFRESH},
+//                    targetEntity = Type.class)
+//    @JoinTable(
+//            name = "project_type",
+//            joinColumns = @JoinColumn(name = "id_project"),
+//            inverseJoinColumns = @JoinColumn(name = "id_type"))
+//    private List<Type> types = new ArrayList<>();
+
+
+
+
 
 //    @OneToMany(
 //            cascade = CascadeType.ALL,

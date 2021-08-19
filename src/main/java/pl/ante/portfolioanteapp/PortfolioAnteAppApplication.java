@@ -21,3 +21,7 @@ public class PortfolioAnteAppApplication{
 		return new LocalValidatorFactoryBean();
 	}
 }
+
+
+//todo: titles for all html files
+//todo: descriptions for all html files

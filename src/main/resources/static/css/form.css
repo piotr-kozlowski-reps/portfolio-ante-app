@@ -3,6 +3,10 @@ body{
     align-items: center;
 }
 
+*{
+    box-sizing: border-box;
+}
+
 .container .row-form{
     padding: 25px 30px;
     font-size: 16px;
@@ -19,7 +23,6 @@ form .project-details .input-box{
     width: calc(100% / 0.1 - 50px);
     justify-content: space-between;
     margin: 20px 0 12px 0;
-    margin-bottom: 15px;
 }
 
 .project-details .input-box input{
@@ -35,8 +38,7 @@ form .project-details .input-box{
 }
 
 .project-details .input-box .details{
-    font-weight: 500;
-    margin-bottom: 800px;
+    font-weight: 400;
 }
 
 .project-details .input-box input:focus,
@@ -44,17 +46,27 @@ form .project-details .input-box{
     border: 2px solid rgb(61, 61, 61);
 }
 
-.project-types{
-
-}
-
 label{
-    background: rosybrown;
-    font-size: 12px;
+    font-size: 11px;
+    margin-right: 20px;
 }
 
 
 form .project-details .details-types{
-    margin-top: 30px;
-    margin-bottom: 3px;
+    margin-top: 40px;
+}
+
+form .project-types .types-class{
+    margin-right: 5px;
+}
+
+.container .row-form form .project-types .custom-checkbox input[type="checkbox"] {
+    background: lavender;
+}
+
+form .project-details .project-types .custom-checkbox{
+    background: lawngreen;
+}
+form input[type="checkbox"]{
+    background: lawngreen;
 }
